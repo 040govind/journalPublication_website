@@ -1,0 +1,25 @@
+/* Home.css */
+
+.home-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .welcome-section h1 {
+    color: #333;
+  }
+  
+  .policy-section,
+  .call-for-articles-section,
+  .license-section {
+    margin-top: 20px;
+  }
+  
+  .call-for-articles-section ul {
+    list-style-type: square;
+  }
+  
+  /* Add more styles based on your preference */
+  
