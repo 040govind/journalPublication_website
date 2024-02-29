@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import './Signup.css';
 import axios from 'axios';
 import toast from "react-hot-toast";
+import { useNavigate } from 'react-router-dom';
 
  const Signup= () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -51,8 +53,7 @@ import toast from "react-hot-toast";
           loading: "Register in progress...",
         }
       );
-
-      console.log(data);
+      navigate('/login');
       // Handle success, redirect, or show a success message
     } catch (error) {
       console.error('Error submitting form:', error);

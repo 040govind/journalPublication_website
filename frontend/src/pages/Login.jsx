@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import './Login.css';
 import toast from "react-hot-toast";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -29,6 +31,7 @@ const Login = () => {
           }
         );
         localStorage.setItem("token", data.accessToken);
+        navigate('/');
         // Handle success, redirect, or show a success message
       } catch (error) {
         console.error('Error submitting form:', error);

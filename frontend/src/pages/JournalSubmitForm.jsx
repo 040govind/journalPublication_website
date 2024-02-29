@@ -2,35 +2,58 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../style/journalsubmisionform.css';
+import toast from "react-hot-toast";
+import axios from 'axios';
 
 const JournalSubmitForm = () => {
   const [formData, setFormData] = useState({
     title: '',
     abstract: '',
-    pdfFile: '',
+    pdfFile: 'null',
     journalType: 'ml',
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { id, value, type, files,name } = e.target;
+    //console.log(name+" "+ value);
+    
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: type === 'file' ? files[0] : value,
+    }));
+    
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData({
-      ...formData,
-      pdfFile: file,
-    });
-  };
-
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
-    // Handle form submission logic here
+    const formDataObj = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      formDataObj.append(key, value);
+    });
+    try {
+     
+    
+      const { data } = await toast.promise(
+        axios.post('http://localhost:5000/api/v1/author/submit-journal', formDataObj, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }),
+        {
+          pending: "Journal Submitting in progress...",
+          success: "Journal Submitting successfully",
+          error: "Unable to submit journal",
+          loading: "Journal Submitting in progress...",
+        }
+      );
+
+      //console.log(data);
+      // Handle success, redirect, or show a success message
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      // Handle errors, show an error message, etc.
+    }
   };
 
   return (
@@ -54,7 +77,7 @@ const JournalSubmitForm = () => {
             <label htmlFor="pdfFile" className="form-label">
               Journal PDF File <span className="text-danger">*</span>
             </label>
-            <input type="file" className="form-control" id="pdfFile" name="pdfFile" onChange={handleFileChange} accept=".pdf" required />
+            <input type="file" className="form-control" id="pdfFile" name="pdfFile" onChange={handleChange} accept=".pdf" required />
           </div>
           <div className="mb-3">
             <label htmlFor="journalType" className="form-label">

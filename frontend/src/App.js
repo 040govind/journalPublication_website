@@ -1,24 +1,37 @@
 
 import './App.css';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Navvar from './component/Navvar'
 import JournalSubmitForm from './pages/JournalSubmitForm';
 import { Toaster } from "react-hot-toast";
-import { Outlet } from 'react-router-dom';
-import Footer from './component/Footer';
+import {Protected,Public,Admin,Reviewer} from "./middleware/auth.js";
 import Home from './pages/Home';
+
 
 function App() {
   return (
     <> 
+      <Router>
       <Toaster/>
-      <Navvar/>
-      <Outlet/>
-       {/* <Login/> */}
-       {/* <JournalSubmitForm/> */}
-       <Home/>
-      <Footer/>
+        <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="/signup" element={
+            <Public>
+              <Signup/>
+            </Public>
+          } />
+          <Route path="/login" element={ 
+          <Public>
+              <Login/>
+          </Public>} />
+          <Route path="/submit-paper" element={
+            <Protected>
+              <JournalSubmitForm/>
+            </Protected>
+          } />
+        </Routes>
+      </Router>
     </>
    
 
