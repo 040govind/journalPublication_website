@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
@@ -7,21 +7,20 @@ import { jwtDecode } from "jwt-decode";
 const Navvar = () => {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   // get user
-  const [user,setUser] = useState(null);
-  console.log(token);
-  if(token!='undefined')
-  {
-    console.log(token);
-     setUser(jwtDecode(token));
-  }
-  const isLoggedIn = token =='undefined' ? false:true;
+  const [user, setUser] = useState(
+    localStorage.getItem("token")
+      ? jwtDecode(localStorage.getItem("token"))
+      : ""
+  );
+  const isLoggedIn = token =="" ? false:true;
   const isAdmin = user && user.isAdmin;
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    
+    localStorage.removeItem("token");;
+    setToken("");
     setUser('');
   };
+  useEffect(()=>{},[token,user]);
 
   return (
     <header>

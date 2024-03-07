@@ -17,7 +17,8 @@ app.use(cookieParser()) // iska use ham isiliye krte he ki jab ham client side p
 
 //import routes
 import authorRouter from './routes/author.routes.js'
-
+import adminRouter from './routes/admin.routes.js'
 app.use("/api/v1/author",authorRouter);
+app.use("/api/v1/admin",adminRouter)
 
 export {app};

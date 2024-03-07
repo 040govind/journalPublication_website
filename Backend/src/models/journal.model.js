@@ -42,6 +42,10 @@ const journalSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  reviewers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }],
   
   // Optional fields can be added here (e.g., author notes, reviewers, etc.)
 },{timestamp:true});

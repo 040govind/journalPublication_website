@@ -164,9 +164,11 @@ const loginUser =asyncHandler(async(req,res)=>{
 //upload journal of author
 const uplaodJournal = asyncHandler(async(req,res)=>{
        try {
-           const [title,abstract,journalType] = req.body;
+        // console.log(req.file.path);
+           const {title,abstract,journalType} = req.body;
+           //console.log(title);
            const user = req.user;
-
+           
            if(
             [title,abstract,journalType].some((field)=> field?.trim() === "")
            )
@@ -174,13 +176,12 @@ const uplaodJournal = asyncHandler(async(req,res)=>{
                 throw  new ApiError(400,"All fields are required");
            }
            const localJournalPath = req.file?.path;
-
+           //console.log("localJournalPath",localJournalPath);
            if(!localJournalPath){
               throw new ApiError(400,"Journal  is required");
            }
-
-           const journalUrl = uploadOnCloudinary(localJournalPath,Journal_pdf);
-
+           const journalUrl = await uploadOnCloudinary(localJournalPath,'Journal_pdf');
+        //    console.log("journal clould url",journalUrl);
            if(!journalUrl){
               throw new ApiError(400,"Some error when upload the journal on server");
            }
@@ -188,7 +189,7 @@ const uplaodJournal = asyncHandler(async(req,res)=>{
            const data =  await Journal.create({
               title,
               abstract,
-              Journal_pdf: journalUrl.url,
+              journal_pdf: journalUrl.url,
               author:user._id,
               journalType
            });
@@ -196,7 +197,7 @@ const uplaodJournal = asyncHandler(async(req,res)=>{
            if(!data){
               throw new ApiError(402,"error occured when saving the document into the database");
            }
-
+          console.log(data);
            return res.status(200).json(
             new ApiResponse(
                 200,{},
@@ -206,6 +207,7 @@ const uplaodJournal = asyncHandler(async(req,res)=>{
 
          
        } catch (error) {
+        console.log(error);
            throw new ApiError(505,"server error when submitting the journal");
        }
 });
@@ -236,14 +238,8 @@ const getJournal = asyncHandler(async(req,res)=>{
 
 const getUserProfile = asyncHandler(async (req, res) => {
     const userId = req.user._id; 
-  
     // Using MongoDB Aggregation Pipeline to get user profile details with journal counts
     const userProfile = await User.aggregate([
-      {
-        $match: {
-          _id: mongoose.Types.ObjectId(userId),
-        },
-      },
       {
         $lookup: {
           from: 'Journal', //  your Journal model collection is named 'journals'
@@ -285,14 +281,17 @@ const getUserProfile = asyncHandler(async (req, res) => {
         },
       },
     ]);
-  
+    console.log("Hello ",userProfile);
     if (!userProfile || userProfile.length === 0) {
       throw new ApiError(400,"user profile doesn't exist ");
     }
   
     // Return user profile details along with journal counts
     return res.status(200).json(
-        new ApiResponse(200,{data:userProfile[0]},"User Profile get successfully")
+        {
+            message:"data fetch successfully",
+            data:userProfile[0]
+        }
     );
   });
 

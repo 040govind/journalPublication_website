@@ -30,7 +30,8 @@ const Login = () => {
             loading: "Login in progress...",
           }
         );
-        localStorage.setItem("token", data.accessToken);
+        //console.log(data.data.accessToken);
+        localStorage.setItem("token", data.data.accessToken);
         navigate('/');
         // Handle success, redirect, or show a success message
       } catch (error) {

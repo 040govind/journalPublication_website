@@ -3,7 +3,7 @@ import {jwtDecode} from "jwt-decode"
 
 export const Protected = ({ children }) => {
   const token = localStorage.getItem("token");
-  if (token) {
+  if (!token) {
     return (
       <Navigate
         to={"/"}
@@ -16,8 +16,8 @@ export const Protected = ({ children }) => {
 
 export const Public = ({ children }) => {
   const token = localStorage.getItem("token");
-  console.log(!token);
-  if (token) {
+  //console.log(!token);
+  if (!token) {
     return children;
   }
   return (

@@ -38,6 +38,7 @@ const JournalSubmitForm = () => {
         axios.post('http://localhost:5000/api/v1/author/submit-journal', formDataObj, {
         headers: {
           'Content-Type': 'multipart/form-data',
+           Authorization: localStorage.getItem('token'),
         },
       }),
         {
