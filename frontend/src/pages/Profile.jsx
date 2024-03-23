@@ -6,7 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const Profile = () => {
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(null);
   const [isReadOnly, setReadOnly] = useState(true);
   const getUser = async () => {
     try {
@@ -25,12 +25,15 @@ const Profile = () => {
           loading: "Fetching Data in progress...",
         }
       );
-      console.log(data);
-      setUserData(data);
+      console.log(data.data);
+      setUserData(data.data);
     } catch (error) {
       console.log(error);
     }
   };
+  const inputChange = ()=>{
+
+  }
   useEffect(() => {
     getUser();
   }, []);
@@ -47,10 +50,11 @@ const Profile = () => {
                 type="text"
                 name="name"
                 className="form-input"
-                placeholder="Enter your name"
-                value={userData?.data.name}
-                // onChange={inputChange}
+                placeholder=""
+                value={userData?.name || ""}
+                onChange={inputChange}
               />
+              
             </div>
             <div className="form-same-row">
               <input
@@ -58,8 +62,8 @@ const Profile = () => {
                 name="email"
                 className="form-input"
                 placeholder="Enter your email"
-                value={userData?.data.email}
-                // onChange={inputChange}
+                value={userData?.email || ""}
+                onChange={inputChange}
               />
             </div>
             <div className="form-same-row">
@@ -68,8 +72,8 @@ const Profile = () => {
                 name="qualification"
                 className="form-input"
                 placeholder="Enter your qualification number"
-                  value={userData?.data.qualification}
-                // onChange={inputChange}
+                value={userData?.qualification || ""}
+              onChange={inputChange}
               />
             </div>
             <div className="form-same-row">
@@ -78,19 +82,18 @@ const Profile = () => {
                 name="reviewer"
                 className="form-input"
                 placeholder="Enter your reviewer number"
-                 value={userData?.data.isReviewer}
-                // onChange={inputChange}
+                value={userData?.isReviewer ? "Yes" : "No"}
+                onChange={inputChange}
               />
             </div>
-            <button onClick={()=>setReadOnly(false)} className="btn form-btn">
+            <button onClick={() => setReadOnly(false)} className="btn form-btn">
               Edit Profile
             </button>
           </form>
         </div>
-        
       </section>
       <div className="">
-       <Circle/>
+        <Circle count={userData?.journalCounts}/>
       </div>
     </>
   );

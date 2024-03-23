@@ -1,4 +1,4 @@
-import {nodemailer} from  'nodemailer';
+import nodemailer from  'nodemailer';
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -8,15 +8,14 @@ const transporter = nodemailer.createTransport({
     }
   });
 
-  const sendEmail = async (to, Usersubject, textMessage, htmlMessage) => {
+  const sendEmail = async (to) => {
     try {
       // Send mail with defined transport object
       const info = await transporter.sendMail({
         from: 'your_email@gmail.com',
-        to,
-        subject: "Journal Publication"+Usersubject,
-        text:textMessage,
-        html
+        to:to,
+        subject: "Journal Publication Allowtment ",
+        text:"You have allowted Journal from reviewing please check the website and confirm it",
       });
   
       console.log('Email sent: %s', info.messageId);

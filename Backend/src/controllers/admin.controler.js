@@ -5,6 +5,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { Journal } from "../models/journal.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { sendEmail } from "../utils/nodemailer.js";
 
 const getAllReviewer = asyncHandler(async (req, res) => {
     try {
@@ -76,10 +77,43 @@ const getJournal = asyncHandler(async (req, res) => {
 
 const setReviewers = asyncHandler(async(req,res)=>{
     try {
-        console.log(req.body);
-        console.log(req.params.id);
-    } catch (error) {
+        const {id} = req.params;
+        let reviewers = req.body
+        //console.log(reviewers);
+
+        const journalData = await Journal.findOne({_id:id});
+
+        if(!journalData){
+            console.log("journal data is not present");
+            throw new ApiError(400,"Journal data is not find in database")
+        }
         
+        for(let i=0;i<reviewers.length;i++){
+            journalData.reviewers.push(reviewers[i]._id);
+            // const mailRes= await sendEmail(reviewers[i].email);
+            // if(!mailRes){
+            //   console.log("some error while sending mail to Reviewer");
+            //   throw new ApiError(405,"error while sending mail");
+            // }
+            // console.log("mail send");
+        }
+
+        journalData.status = "allowted";
+
+        const updateInfo = await journalData.save();
+
+        if(!updateInfo){
+            console.log("error while update the document ");
+            throw new ApiError(501,"some error while saving the document into database");
+        }
+
+        res.status(200).json(
+            new ApiResponse(100,"Reviewer Added Successfully")
+        );
+
+    } catch (error) {
+        console.log("Error while adding the reviewer server side",error);
+        throw new ApiError(500, "Some internal Server Error while adding reviewer");
     }
 })
 

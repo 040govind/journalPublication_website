@@ -13,6 +13,7 @@ const ReviewerCard = ({ title, author, status, date }) => {
   const [searchReviewer, setSearchReviewer] = useState([]);
   const [selectedReviewer, setSelectedReviewer] = useState(null);
   const [journal,setJournal] = useState({});
+  const [addreviewer_error,setAddreviewer_error]=useState(false);
   let {id} = useParams();
 
   //FETCH A JOURNAL BY ID
@@ -62,6 +63,7 @@ const ReviewerCard = ({ title, author, status, date }) => {
 
   // SEARCHING FUNCTIONALITY
   const handleSearch = (input) => {
+    setAddreviewer_error(false);
     setSearchInput(input);
     const searchInputString = input.toLowerCase().trim();
     if (searchInputString === '') {
@@ -71,15 +73,21 @@ const ReviewerCard = ({ title, author, status, date }) => {
     const filtered = allReviewers.filter((reviewer) =>
       reviewer.name.toLowerCase().includes(searchInputString)
     );
-    // console.log("filtered",filtered);
+    console.log("filtered",filtered);
     setSearchReviewer(filtered);
   };
 
 
   //ADD REVIER FROM THE LIST
   const handleAddReviewer = () => {
-    //console.log(newReviewer);
+    //console.log(!newReviewer);
+    if(Object.keys(newReviewer).length === 0){
+      console.log("No Review Is Added");
+      setAddreviewer_error(true);
+      return;
+    }
     if (newReviewer.name.trim() !== '') {
+      setAddreviewer_error(false);
       setReviewers([...reviewers, newReviewer]);
       setNewReviewer({});
       setSearchInput('');
@@ -131,9 +139,12 @@ const ReviewerCard = ({ title, author, status, date }) => {
       <p>Author:{journal?.author?.name}</p>
       <p>Author-Email:{journal?.author?.email}</p>
       
-      <button onClick={handleAddReviewer}>Add Reviewer</button>
+      <button className='btn' onClick={handleAddReviewer}>Add Reviewer</button>
       {
-        reviewers.length > 0 ? <button onClick={setReviewer}>Submit Reviewer</button> :null
+        reviewers.length > 0 ? <button className='btn' onClick={setReviewer}>Submit Reviewer</button> :null
+      }
+      { addreviewer_error && <p style={{color:"red"}}>Select reviewer/Not Present in DB </p>
+
       }
       <div className="reviewer-list">
         {reviewers.map((reviewer, index) => (
@@ -150,6 +161,7 @@ const ReviewerCard = ({ title, author, status, date }) => {
         placeholder="Search Reviewer"
         value={searchInput.name}
         onChange={(e) => handleSearch(e.target.value)}
+        className='input'
       />
       {searchReviewer.length > 0 && (
         <div className="search-results">

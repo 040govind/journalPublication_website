@@ -12,9 +12,9 @@ const Navvar = () => {
       ? jwtDecode(localStorage.getItem("token"))
       : ""
   );
-  const isLoggedIn = token =="" ? false:true;
+  const isLoggedIn = token ==="" ? false:true;
   const isAdmin = user && user.isAdmin;
-
+ //console.log(isLoggedIn);
   const handleLogout = () => {
     localStorage.removeItem("token");;
     setToken("");
@@ -43,7 +43,7 @@ const Navvar = () => {
 
           <div className="collapse navbar-collapse" id="navbarNavDropdown">
             <ul className="navbar-nav ms-auto">
-              {isLoggedIn && (
+              {isLoggedIn && !isAdmin && (
                 <>
                   <li className="nav-item">
                     <Link className="nav-link mx-2" to="/">
@@ -60,27 +60,47 @@ const Navvar = () => {
                       Profile
                     </Link>
                   </li>
-                  {isAdmin && (
-                    <>
-                      <li className="nav-item">
-                        <Link className="nav-link mx-2" to="/all_paper">
-                          All Paper
-                        </Link>
-                      </li>
-                      <li className="nav-item">
-                        <Link className="nav-link mx-2" to="/list_of_reviewer">
-                          List Of Reviewer
-                        </Link>
-                      </li>
-                    </>
-                  )}
                   <li className="nav-item">
-                    <button className="btn btn-link nav-link mx-2" onClick={handleLogout}>
-                      Logout
-                    </button>
+                    <Link className="nav-link mx-2" to="/all-submit-paper">
+                      All Submit paper
+                    </Link>
                   </li>
                 </>
               )}
+
+              {isLoggedIn && isAdmin && (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link mx-2" to="/all-journal">
+                      All Journal
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link mx-2" to="/list-of-reviewer">
+                      List Of Reviewer
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link mx-2" to="/profile">
+                      Profile
+                    </Link>
+                  </li>
+                 
+                </>
+              )}
+
+              
+              
+              { isLoggedIn &&(
+                <li className="nav-item">
+                <button className="btn btn-link nav-link mx-2" onClick={handleLogout}>
+                  Logout
+                </button>
+              </li>
+              )
+
+              }
+
               {!isLoggedIn && (
                 <>
                   <li className="nav-item">

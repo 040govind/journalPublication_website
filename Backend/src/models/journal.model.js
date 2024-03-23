@@ -20,7 +20,7 @@ const journalSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'allowed', 'complete', 'published'],
+    enum: ['pending', 'allowted', 'complete', 'published'],
     default: 'pending',
   },
   date: {

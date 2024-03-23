@@ -1,16 +1,26 @@
 /* ReviewerCard.css */
 
 .reviewer-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 16px;
-    margin: 16px;
+  border: 9px solid #ddd;
+  border-radius: 8px;
+  padding: 42px;
+  margin: auto;
+  width: 750px;
+  margin-top: 15px;
+  height: 800px;
   }
-  
+  p{
+    padding: 5px;
+  }
+  h3{
+    color: rgb(104, 184, 82);
+  }
   .reviewer-list {
     margin-top: 8px;
   }
-  
+  .input {
+    margin-top: 3px;
+  }
   .reviewer-item {
     display: inline;
     
@@ -27,6 +37,11 @@
       margin-top: 10px;
     }
     
+    .btn {
+      padding: 5px;
+      width: 100px;
+      margin-right: 3px;
+    }
     .search-results p {
       font-weight: bold;
     }

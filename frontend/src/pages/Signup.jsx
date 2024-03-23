@@ -136,7 +136,7 @@ import { useNavigate } from 'react-router-dom';
           </div>
           <div className="form-group">
             <label className="label" htmlFor="isReviewer">
-              Are you a reviewer?
+              Join As a  Reviewer?
             </label>
             <select
               className="input"
