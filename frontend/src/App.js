@@ -18,6 +18,7 @@ import AllJournal from "./pages/AllJournal.jsx";
 import AddReviewer from "./component/AddReviewer.jsx";
 import Layout from './component/Layout.jsx';
 import AllSubmittedJournalAuthor from "./pages/AllSubmittedJournalAuthor.jsx";
+import CompleteJournalDetailsAuthor from "./pages/CompleteJournalDetailsAuthor.jsx";
 
 function App() {
   return (
@@ -65,12 +66,21 @@ function App() {
               <Layout>  <Profile /></Layout>
               </Protected>
             }
+           
           />
           <Route
             path="/all-submit-paper"
             element={
               <Protected>
                <Layout> <AllSubmittedJournalAuthor /></Layout>
+              </Protected>
+            }
+          />
+          <Route
+            path="/journal/author/:id"
+            element={
+              <Protected>
+               <Layout> <CompleteJournalDetailsAuthor /></Layout>
               </Protected>
             }
           />

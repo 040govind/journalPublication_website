@@ -126,7 +126,7 @@ const ReviewerCard = ({ title, author, status, date }) => {
       <p>Abstract: {journal?.abstract}</p>
       <p>Status: {journal?.status}</p>
       <span>Journal-Pdf: <a href={journal?.journal_pdf} target='_blank' style={{display:"inline"}}>{journal?.journal_pdf}</a></span>
-      <p>Journal-Category: {journal.journalType}</p>
+      <p>Journal-Category: {journal?.journalType}</p>
       <h3 style={{fontWeight:"bold"}}>Author Detail</h3>
       <p>Author:{journal?.author?.name}</p>
       <p>Author-Email:{journal?.author?.email}</p>
