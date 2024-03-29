@@ -8,26 +8,30 @@ import { Toaster } from "react-hot-toast";
 import { Protected, Public, Admin, Reviewer } from "./middleware/auth.js";
 import Home from "./pages/Home";
 // import Circle from './component/Circle.jsx';
+
+import About from "./pages/About.jsx";
 import Profile from "./pages/Profile.jsx";
-import Navvar from "./component/Navvar.jsx";
+import Navbar from "./component/Navbar.jsx";
 import Footer from "./component/Footer.jsx";
 import AllReviewer from "./pages/AllReviewer.jsx";
 import AllJournal from "./pages/AllJournal.jsx";
 import AddReviewer from "./component/AddReviewer.jsx";
+import Layout from './component/Layout.jsx';
+import AllSubmittedJournalAuthor from "./pages/AllSubmittedJournalAuthor.jsx";
 
 function App() {
   return (
     <>
       <Router>
         <Toaster />
-        <Navvar />
+        
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Layout><Home /></Layout>} />
           <Route
             path="/signup"
             element={
               <Public>
-                <Signup />
+               <Layout> <Signup /></Layout>
               </Public>
             }
           />
@@ -35,15 +39,22 @@ function App() {
             path="/login"
             element={
               <Public>
-                <Login />
+               <Layout> <Login /></Layout>
               </Public>
             }
           />
+          <Route 
+            path="/about" 
+            element={
+              <Layout><About /></Layout>
+            } 
+          />
+          
           <Route
             path="/submit_paper"
             element={
               <Protected>
-                <JournalSubmitForm />
+               <Layout> <JournalSubmitForm /></Layout>
               </Protected>
             }
           />
@@ -51,7 +62,7 @@ function App() {
             path="/profile"
             element={
               <Protected>
-                <Profile />
+              <Layout>  <Profile /></Layout>
               </Protected>
             }
           />
@@ -59,7 +70,7 @@ function App() {
             path="/all-submit-paper"
             element={
               <Protected>
-                <JournalSubmitForm />
+               <Layout> <AllSubmittedJournalAuthor /></Layout>
               </Protected>
             }
           />
@@ -67,7 +78,7 @@ function App() {
             path="/all-journal"
             element={
               <Admin>
-                <AllJournal />
+              <Layout>  <AllJournal /></Layout>
               </Admin>
             }
           />
@@ -75,7 +86,7 @@ function App() {
             path="/list-of-reviewer"
             element={
               <Admin>
-                <AllReviewer />
+                <Layout><AllReviewer /></Layout>
               </Admin>
             }
           />
@@ -83,12 +94,11 @@ function App() {
             path="/journal/:id"
             element={
               <Admin>
-                <AddReviewer />
+                <Layout><AddReviewer /></Layout>
               </Admin>
             }
           />
         </Routes>
-        <Footer />
       </Router>
     </>
   );

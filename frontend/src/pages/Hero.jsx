@@ -3,9 +3,11 @@
 import React from 'react';
 import Menu from './Menu';
 import '../style/home.css'; // Assuming your CSS file is in the 'styles' folder
+import Navvar from '../component/Navvar';
 
 const Hero = () => {
   return (
+    
     <div className="home-container">
        <Menu/>
       <div className="welcome-section">

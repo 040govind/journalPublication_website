@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "../style/profile.css";
-import img from "../img/customer-3.jpg";
+import img from "../img/customers/customer-3.jpg";
 import Circle from "../component/Circle";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 const Profile = () => {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState({});
   const [isReadOnly, setReadOnly] = useState(true);
   const getUser = async () => {
     try {
@@ -14,8 +14,9 @@ const Profile = () => {
         Authorization: localStorage.getItem("token"),
         "Content-Type": "application/json",
       };
+      console.log("pppp");
       const {data} = await toast.promise(
-        axios.get("http://localhost:5000/api/v1/author/getUserProfile", {
+        axios.get("http://127.0.0.1:5000/api/v1/author/getUserProfile", {
           headers,
         }),
         {
@@ -25,16 +26,15 @@ const Profile = () => {
           loading: "Fetching Data in progress...",
         }
       );
+     
       console.log(data.data);
       setUserData(data.data);
     } catch (error) {
       console.log(error);
     }
   };
-  const inputChange = ()=>{
-
-  }
   useEffect(() => {
+    console.log("pppp");
     getUser();
   }, []);
 
@@ -50,11 +50,10 @@ const Profile = () => {
                 type="text"
                 name="name"
                 className="form-input"
-                placeholder=""
-                value={userData?.name || ""}
-                onChange={inputChange}
+                placeholder="Enter your name"
+                value={userData?.name}
+                // onChange={inputChange}
               />
-              
             </div>
             <div className="form-same-row">
               <input
@@ -62,8 +61,8 @@ const Profile = () => {
                 name="email"
                 className="form-input"
                 placeholder="Enter your email"
-                value={userData?.email || ""}
-                onChange={inputChange}
+                value={userData?.email}
+                // onChange={inputChange}
               />
             </div>
             <div className="form-same-row">
@@ -72,8 +71,8 @@ const Profile = () => {
                 name="qualification"
                 className="form-input"
                 placeholder="Enter your qualification number"
-                value={userData?.qualification || ""}
-              onChange={inputChange}
+                  value={userData?.qualification}
+                // onChange={inputChange}
               />
             </div>
             <div className="form-same-row">
@@ -82,18 +81,19 @@ const Profile = () => {
                 name="reviewer"
                 className="form-input"
                 placeholder="Enter your reviewer number"
-                value={userData?.isReviewer ? "Yes" : "No"}
-                onChange={inputChange}
+                 value={userData?.isReviewer}
+                // onChange={inputChange}
               />
             </div>
-            <button onClick={() => setReadOnly(false)} className="btn form-btn">
+            <button onClick={()=>setReadOnly(false)} className="btn form-btn">
               Edit Profile
             </button>
           </form>
         </div>
+        
       </section>
       <div className="">
-        <Circle count={userData?.journalCounts}/>
+       <Circle/>
       </div>
     </>
   );

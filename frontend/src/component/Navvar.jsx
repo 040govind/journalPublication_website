@@ -1,10 +1,14 @@
 import React,{useEffect, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setUserInfo } from "../redux/reducers/rootSlice"; 
+import { Navigate } from 'react-router-dom';
 
 const Navvar = () => {
+  const dispatch = useDispatch();
+  const navigate =useNavigate();
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   // get user
   const [user, setUser] = useState(
@@ -12,6 +16,7 @@ const Navvar = () => {
       ? jwtDecode(localStorage.getItem("token"))
       : ""
   );
+  //const { userInfo } = useSelector((state) => state.root);
   const isLoggedIn = token ==="" ? false:true;
   const isAdmin = user && user.isAdmin;
  //console.log(isLoggedIn);
@@ -19,8 +24,10 @@ const Navvar = () => {
     localStorage.removeItem("token");;
     setToken("");
     setUser('');
+    navigate('/');
   };
-  useEffect(()=>{},[token,user]);
+  
+
 
   return (
     <header>

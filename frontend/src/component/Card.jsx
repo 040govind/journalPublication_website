@@ -1,6 +1,6 @@
 import React from 'react';
 import '../style/card.css'; // Import your CSS file for styling
-import img from '../img/customer-5.jpg'
+import img from '../img/customers/customer-5.jpg'
 const Card = ({ name, email, qualification, imageSrc, pdfLink }) => {
   return (
     <div className="card">

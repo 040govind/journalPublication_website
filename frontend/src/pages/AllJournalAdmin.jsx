@@ -3,7 +3,7 @@ import JournalCard from '../component/JournalCard';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const AllJournal = () => {
+const AllJournalAdmin = () => {
   const [journals, setJournals] = useState([]);
 
   const getAllJournals = async () => {
@@ -34,7 +34,7 @@ const AllJournal = () => {
   }, []);
 
   return (
-    <>
+    <div style={{display:'flex', flexDirection:'row'}}>
       {journals.length > 0 ? (
         journals.map((journal) => (
           <JournalCard key={journal._id} journal={journal} />
@@ -42,8 +42,8 @@ const AllJournal = () => {
       ) : (
         <p>No journals available.</p>
       )}
-    </>
+    </div>
   );
 };
 
-export default AllJournal;
+export default AllJournalAdmin;
