@@ -31,6 +31,9 @@ const userSchema = new Schema({
         type: String,
         required: true,
       },
+      image:{
+        type:String,
+      },
       isReviewer: {
         type: Boolean,
         default: false,

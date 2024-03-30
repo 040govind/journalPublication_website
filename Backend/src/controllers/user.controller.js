@@ -36,7 +36,8 @@ const registerUser =asyncHandler(async(req,res)=>{
     try {
         const {name,email,password,qualification,isReviewer, specialistArea} = req.body;
         // console.log(req.body);
-    
+        //console.log( req.files);
+        //console.log( req.files['image'][0].path);
         //step2:
         if(
             [name,email,password,qualification,isReviewer, specialistArea].some((field)=> field?.trim() === "")
@@ -52,7 +53,7 @@ const registerUser =asyncHandler(async(req,res)=>{
         }
         //console.log(req.files);
         //step 4:
-        const degreeLocalPath = req.file?.path;
+        const degreeLocalPath = req.files['degree_pdf'][0].path;
         //console.log(degreeLocalPath);
         
         if(!degreeLocalPath)
@@ -67,7 +68,15 @@ const registerUser =asyncHandler(async(req,res)=>{
             console.log(degree);
             throw new ApiError(400,"degree file is required");
         }
-        
+         
+        const imageLocalPath = req.files['image'][0].path;
+        if(!imageLocalPath){
+            throw new ApiError(400,"Image file is required");
+        }
+        const image = await uploadOnCloudinary(imageLocalPath, "user_avtar");
+        if (!image) {
+            throw new ApiError(400, "Image file upload failed");
+        }
         //step 5:
         // let flag=false;
         // if(isReviewer=="yes"){
@@ -79,6 +88,7 @@ const registerUser =asyncHandler(async(req,res)=>{
             password,
             qualification,
             degree_pdf:degree.url,
+            image:image.url,
             isReviewer:false,
             specialistArea,
         });
@@ -259,6 +269,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
                 _id: 1,
                 name: 1,
                 email: 1,
+                image:1,
                 qualification: 1,
                 isReviewer: 1,
                 specialistArea: 1,

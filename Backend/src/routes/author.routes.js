@@ -9,7 +9,11 @@ const router =Router();
 
 //public route for author
 //console.log("rote me ");
-router.route("/register").post(upload.single("degree_pdf"),registerUser);
+router.route("/register").post(upload.fields([
+    { name: 'degree_pdf', maxCount: 1 }, 
+    { name: 'image', maxCount: 1 }]), 
+    registerUser);
+
 router.route("/login").post(loginUser);
 
 //privatte route for author 

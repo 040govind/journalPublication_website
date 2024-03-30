@@ -3,7 +3,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserInfo } from "../redux/reducers/rootSlice"; 
+import { setUserInfo } from "../redux/reducers/rootSlice";
+import toast from 'react-hot-toast'; 
 import { Navigate } from 'react-router-dom';
 
 const Navvar = () => {
@@ -24,7 +25,8 @@ const Navvar = () => {
     localStorage.removeItem("token");;
     setToken("");
     setUser('');
-    navigate('/');
+    toast.success("User Logout SuccessFully");
+    //navigate('/');
   };
   
 
