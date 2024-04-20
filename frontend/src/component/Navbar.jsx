@@ -28,7 +28,8 @@ const Navbar = () => {
   );
   const isLoggedIn = token =="" ? false:true;
   const isAdmin = user && user.isAdmin;
-
+  const  isReviewer = user && user.isReviewer;
+  //console.log(user);
   const handleLogout = () => {
     localStorage.removeItem("token");;
     setToken("");
@@ -63,6 +64,12 @@ const Navbar = () => {
                       <li><Link className="main-nav-link" to="/list-of-reviewer" onClick={handleNavItemClick}>List of Reviewer</Link></li>
                     </>
                   )}
+                  {isReviewer && (
+                    <>
+                      <li><Link className="main-nav-link" to="/all-journal-for-reviewing" onClick={handleNavItemClick}>All Paper</Link></li>
+                      {/* <li><Link className="main-nav-link" to="/list-of-reviewer" onClick={handleNavItemClick}>List of Reviewer</Link></li> */}
+                    </>
+                  )}
                   
                   <li className="nav-item">
                   <Link className="main-nav-link" to="/" onClick={handleLogout}>Logout</Link>
@@ -73,6 +80,7 @@ const Navbar = () => {
                   
                 </>
               )}
+              
               {!isLoggedIn && (
                 <>
                   <li><Link className="main-nav-link" to="/signup" onClick={handleNavItemClick}>Signup</Link></li>

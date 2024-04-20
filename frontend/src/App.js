@@ -19,7 +19,7 @@ import AddReviewer from "./component/AddReviewer.jsx";
 import Layout from './component/Layout.jsx';
 import AllSubmittedJournalAuthor from "./pages/AllSubmittedJournalAuthor.jsx";
 import CompleteJournalDetailsAuthor from "./pages/CompleteJournalDetailsAuthor.jsx";
-
+import AllJournalForReviewing from "./pages/reviewerPages/AllJournalForReviewing.jsx";
 function App() {
   return (
     <>
@@ -106,6 +106,14 @@ function App() {
               <Admin>
                 <Layout><AddReviewer /></Layout>
               </Admin>
+            }
+          />
+          <Route
+            path="/all-journal-for-reviewing"
+            element={
+              <Reviewer>
+                <Layout><AllJournalForReviewing /></Layout>
+              </Reviewer>
             }
           />
         </Routes>
