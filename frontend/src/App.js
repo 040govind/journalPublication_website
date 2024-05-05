@@ -21,6 +21,7 @@ import AllSubmittedJournalAuthor from "./pages/AllSubmittedJournalAuthor.jsx";
 import CompleteJournalDetailsAuthor from "./pages/CompleteJournalDetailsAuthor.jsx";
 import AllJournalForReviewing from "./pages/reviewerPages/AllJournalForReviewing.jsx";
 import FeedBackOnJournal from "./pages/reviewerPages/FeedBackOnJournal.jsx";
+import FeedBackPage from "./pages/reviewerPages/FeedBackPage.jsx";
 function App() {
   return (
     <>
@@ -159,6 +160,17 @@ function App() {
                 <Layout>
                   {" "}
                   <FeedBackOnJournal />
+                </Layout>
+              </Reviewer>
+            }
+          />
+           <Route
+            path="/journals/reviewer/feedback/:id"
+            element={
+              <Reviewer>
+                <Layout>
+                  {" "}
+                  <FeedBackPage />
                 </Layout>
               </Reviewer>
             }

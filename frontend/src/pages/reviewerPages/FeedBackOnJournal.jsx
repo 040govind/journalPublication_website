@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const FeedBackOnJournal = () => {
     const [journal, setJournal] = useState({});
@@ -105,7 +106,7 @@ const FeedBackOnJournal = () => {
         } else if (status === "accept") {
             return (
                 <div>
-                    <button className='feedback-button'>Feedback</button>
+                    <Link  to={`/journals/reviewer/feedback/${id}`} className='feedback-button' >Feedback</Link> 
                 </div>
             );
         } else if (status === "reject") {
