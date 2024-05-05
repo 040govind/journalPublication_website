@@ -16,23 +16,34 @@ import Footer from "./component/Footer.jsx";
 import AllReviewer from "./pages/AllReviewer.jsx";
 import AllJournal from "./pages/AllJournal.jsx";
 import AddReviewer from "./component/AddReviewer.jsx";
-import Layout from './component/Layout.jsx';
+import Layout from "./component/Layout.jsx";
 import AllSubmittedJournalAuthor from "./pages/AllSubmittedJournalAuthor.jsx";
 import CompleteJournalDetailsAuthor from "./pages/CompleteJournalDetailsAuthor.jsx";
 import AllJournalForReviewing from "./pages/reviewerPages/AllJournalForReviewing.jsx";
+import FeedBackOnJournal from "./pages/reviewerPages/FeedBackOnJournal.jsx";
 function App() {
   return (
     <>
       <Router>
         <Toaster />
-        
+
         <Routes>
-          <Route path="/" element={<Layout><Home /></Layout>} />
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <Home />
+              </Layout>
+            }
+          />
           <Route
             path="/signup"
             element={
               <Public>
-               <Layout> <Signup /></Layout>
+                <Layout>
+                  {" "}
+                  <Signup />
+                </Layout>
               </Public>
             }
           />
@@ -40,22 +51,30 @@ function App() {
             path="/login"
             element={
               <Public>
-               <Layout> <Login /></Layout>
+                <Layout>
+                  {" "}
+                  <Login />
+                </Layout>
               </Public>
             }
           />
-          <Route 
-            path="/about" 
+          <Route
+            path="/about"
             element={
-              <Layout><About /></Layout>
-            } 
+              <Layout>
+                <About />
+              </Layout>
+            }
           />
-          
+
           <Route
             path="/submit_paper"
             element={
               <Protected>
-               <Layout> <JournalSubmitForm /></Layout>
+                <Layout>
+                  {" "}
+                  <JournalSubmitForm />
+                </Layout>
               </Protected>
             }
           />
@@ -63,16 +82,21 @@ function App() {
             path="/profile"
             element={
               <Protected>
-              <Layout>  <Profile /></Layout>
+                <Layout>
+                  {" "}
+                  <Profile />
+                </Layout>
               </Protected>
             }
-           
           />
           <Route
             path="/all-submit-paper"
             element={
               <Protected>
-               <Layout> <AllSubmittedJournalAuthor /></Layout>
+                <Layout>
+                  {" "}
+                  <AllSubmittedJournalAuthor />
+                </Layout>
               </Protected>
             }
           />
@@ -80,15 +104,21 @@ function App() {
             path="/journal/author/:id"
             element={
               <Protected>
-               <Layout> <CompleteJournalDetailsAuthor /></Layout>
+                <Layout>
+                  {" "}
+                  <CompleteJournalDetailsAuthor />
+                </Layout>
               </Protected>
             }
           />
-           <Route
+          <Route
             path="/all-journal"
             element={
               <Admin>
-              <Layout>  <AllJournal /></Layout>
+                <Layout>
+                  {" "}
+                  <AllJournal />
+                </Layout>
               </Admin>
             }
           />
@@ -96,7 +126,9 @@ function App() {
             path="/list-of-reviewer"
             element={
               <Admin>
-                <Layout><AllReviewer /></Layout>
+                <Layout>
+                  <AllReviewer />
+                </Layout>
               </Admin>
             }
           />
@@ -104,7 +136,9 @@ function App() {
             path="/journal/:id"
             element={
               <Admin>
-                <Layout><AddReviewer /></Layout>
+                <Layout>
+                  <AddReviewer />
+                </Layout>
               </Admin>
             }
           />
@@ -112,7 +146,20 @@ function App() {
             path="/all-journal-for-reviewing"
             element={
               <Reviewer>
-                <Layout><AllJournalForReviewing /></Layout>
+                <Layout>
+                  <AllJournalForReviewing />
+                </Layout>
+              </Reviewer>
+            }
+          />
+          <Route
+            path="/journal/reviewer/:id"
+            element={
+              <Reviewer>
+                <Layout>
+                  {" "}
+                  <FeedBackOnJournal />
+                </Layout>
               </Reviewer>
             }
           />
