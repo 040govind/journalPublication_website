@@ -34,7 +34,7 @@ const AllJournalAdmin = () => {
   }, []);
 
   return (
-    <div style={{display:'flex', flexDirection:'row'}}>
+    <>
       {journals.length > 0 ? (
         journals.map((journal) => (
           <JournalCard key={journal._id} journal={journal} />
@@ -42,7 +42,7 @@ const AllJournalAdmin = () => {
       ) : (
         <p>No journals available.</p>
       )}
-    </div>
+    </>
   );
 };
 

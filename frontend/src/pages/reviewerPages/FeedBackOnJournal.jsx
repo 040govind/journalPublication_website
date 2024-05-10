@@ -106,11 +106,15 @@ const FeedBackOnJournal = () => {
         } else if (status === "accept") {
             return (
                 <div>
-                    <Link  to={`/journals/reviewer/feedback/${id}`} className='feedback-button' >Feedback</Link> 
+                    <Link  to={`/journals/reviewer/feedback/${id}`} style={{textDecoration: "none"}} 
+                    className='feedback-button' >Feedback</Link> 
                 </div>
             );
         } else if (status === "reject") {
             return <p style={{ color: "red" }}>You rejected this journal.</p>;
+        }
+        else if(status === "Reviewcomplete"){
+            return <p style={{ color: "green" }}>You have submitted the feedback.</p>;
         }
     };
 
@@ -121,9 +125,7 @@ const FeedBackOnJournal = () => {
             <p>Status: {journal?.status}</p>
             <span>Journal-Pdf: <a href={journal?.journal_pdf} target='_blank' style={{ display: "inline" }}>{journal?.journal_pdf}</a></span>
             <p>Journal-Category: {journal?.journalType}</p>
-            <h3 style={{ fontWeight: "bold" }}>Author Detail</h3>
-            <p>Author:{journal?.author?.name}</p>
-            <p>Author-Email:{journal?.author?.email}</p>
+           
 
             {renderButtons()}
         </div>

@@ -34,7 +34,7 @@ const AllJournalForReviewing = () => {
   }, []);
 
   return (
-    <>
+    <div className='journal-list'>
       {journals.length > 0 ? (
         journals.map((journal) => (
           <JournalCard key={journal._id} journal={journal} />
@@ -42,7 +42,7 @@ const AllJournalForReviewing = () => {
       ) : (
         <p>No journals available.</p>
       )}
-    </>
+    </div>
   );
 };
 

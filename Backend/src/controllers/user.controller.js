@@ -12,8 +12,11 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js";
 
 const  generateAccessAndRefereshTokens= async(userId)=>{
     try {
+        console.log(userId);
         const user= await User.findById(userId);
+        console.log(user);
         const aceesToken = user.generateAccessToken();
+        console.log(aceesToken);
         return aceesToken;
 
     } catch (error) {
@@ -79,9 +82,7 @@ const registerUser =asyncHandler(async(req,res)=>{
         }
         //step 5:
         // let flag=false;
-        // if(isReviewer=="yes"){
-             // yha par ham isReviewer field ka logic likhenge 
-        // }
+        
         const user = await User.create({
             name,
             email,
@@ -101,7 +102,9 @@ const registerUser =asyncHandler(async(req,res)=>{
         {
             throw new ApiError(500,"Something went wrong while regestering the User");
         }
-    
+        if(isReviewer=="yes"){
+             
+        }
         return res.status(200).json(
             new ApiResponse(200,createdUser, "User registered Successfully")
         )
@@ -141,7 +144,7 @@ const loginUser =asyncHandler(async(req,res)=>{
     if(!isPasswordValid){
         throw new ApiError(401,"Invalid user credentials");
     }
-
+    console.log("here");
     const accessToken = await generateAccessAndRefereshTokens(user._id);
     console.log(accessToken);
 
@@ -227,20 +230,19 @@ const uplaodJournal = asyncHandler(async(req,res)=>{
 const getJournal = asyncHandler(async(req,res)=>{
     try {
         const user = req.user;
-        //console.log(user._id);
+       // console.log(user);
         const journals = await Journal.find({ author: user._id});
+        console.log(journals);
 
-          //console.log(journals);
         if(!journals){
             throw new ApiError(400,"Some error when fetching journal from database");
         }
 
         return res.status(200).json(
-            new ApiResponse(200,journals,"All journal are fetched successfully")
+            new ApiResponse(200,{data:journals},"All journal are fetched successfully")
         );
 
     } catch (error) {
-        console.log(error);
         throw new ApiError(500,"Some internal Server Error");
     }
 });
@@ -249,62 +251,59 @@ const getJournal = asyncHandler(async(req,res)=>{
 
 const getUserProfile = asyncHandler(async (req, res) => {
     const userId = req.user._id; 
-    //console.log(userId);
-    //const data = await User.findOne({_id:userId});
-    //console.log(data);
+    // Using MongoDB Aggregation Pipeline to get user profile details with journal counts
     const userProfile = await User.aggregate([
         {
             $match: { _id: new mongoose.Types.ObjectId(userId) } // Match user by ID
         },
-        {
-            $lookup: {
-                from: 'journals', // Assuming the Journal collection name is 'journals'
-                localField: '_id',
-                foreignField: 'author',
-                as: 'journals',
-            },
+      {
+        $lookup: {
+          from: 'Journal', //  your Journal model collection is named 'journals'
+          localField: '_id',
+          foreignField: 'author',
+          as: 'journals',
         },
-        {
-            $project: {
-                _id: 1,
-                name: 1,
-                email: 1,
-                image:1,
-                qualification: 1,
-                isReviewer: 1,
-                specialistArea: 1,
-                journalCounts: {
-                    totalJournals: { $size: '$journals' },
-                    pendingJournals: {
-                        $size: {
-                            $filter: {
-                                input: '$journals',
-                                as: 'journal',
-                                cond: { $eq: ['$$journal.status', 'pending'] },
-                            },
-                        },
-                    },
-                    completedJournals: {
-                        $size: {
-                            $filter: {
-                                input: '$journals',
-                                as: 'journal',
-                                cond: { $eq: ['$$journal.status', 'complete'] },
-                            },
-                        },
-                    },
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          email: 1,
+          image:1,
+          qualification:1,
+          isReviewer:1,
+          specialistArea:1,
+          // Include other user details as needed
+          journalCounts: {
+            totalJournals: { $size: '$journals' },
+            pendingJournals: {
+              $size: {
+                $filter: {
+                  input: '$journals',
+                  as: 'journal',
+                  cond: { $eq: ['$$journal.status', 'pending'] },
                 },
+              },
             },
+            completedJournals: {
+              $size: {
+                $filter: {
+                  input: '$journals',
+                  as: 'journal',
+                  cond: { $eq: ['$$journal.status', 'complete'] },
+                },
+              },
+            },
+          },
         },
+      },
     ]);
-
-    //console.log("Hello ",userProfile);
+    console.log("Hello ",userProfile);
     if (!userProfile || userProfile.length === 0) {
       throw new ApiError(400,"user profile doesn't exist ");
     }
   
     // Return user profile details along with journal counts
-    console.log(userProfile[0]);
     return res.status(200).json(
         {
             message:"data fetch successfully",
@@ -313,8 +312,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
     );
   });
 
-//   
-const getCompleteDetailsOfJournal = asyncHandler(async (req, res) => {
+  const getCompleteDetailsOfJournal = asyncHandler(async (req, res) => {
     try {
         const journalId = req.params.id;
 

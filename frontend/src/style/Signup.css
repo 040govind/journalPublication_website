@@ -81,7 +81,6 @@
   /* background-color: #e67e22; */
   box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.15);
   border-radius: 11px;
-
   background-image: linear-gradient(to right bottom, #eb984e, #e67e22);
   overflow: hidden;
 }
@@ -148,6 +147,25 @@
 .cta *:focus {
   outline: none;
   box-shadow: 0 0 0 0.8rem rgba(253, 242, 233, 0.5);
+}
+
+@media (max-width: 34em) {
+  .grid {
+    row-gap: 4.8rem;
+  }
+.cta {
+  grid-template-columns: 1fr;
+}
+
+.cta-text-box {
+  padding: 3.2rem;
+}
+
+.cta-img-box {
+  height: 32rem;
+  grid-row: 1;
+}
+
 }
 
   /* Add any additional styling as needed */

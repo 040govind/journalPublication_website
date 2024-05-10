@@ -17,8 +17,8 @@ const AllSubmittedJournalAuthor = () => {
 
       if (response.status === 200) {
         // Assuming the response.data contains the array of journals
-        //console.log(response.data.data);
-        setJournals(response.data.data);
+        console.log(response.data.data.data);
+        setJournals(response.data.data.data);
         toast.success('Data Fetched Successfully');
       } else {
         toast.error('Failed to fetch data');

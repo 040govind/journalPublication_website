@@ -54,7 +54,7 @@ const Navbar = () => {
                   <li><Link className="main-nav-link" to="/profile" onClick={handleNavItemClick}>Profile</Link></li>
                   <li className="nav-item">
                     <Link className="main-nav-link"  onClick={handleNavItemClick}to="/all-submit-paper">
-                      All Submit paper
+                      Your Papers
                     </Link>
                   </li>
 
@@ -66,7 +66,7 @@ const Navbar = () => {
                   )}
                   {isReviewer && (
                     <>
-                      <li><Link className="main-nav-link" to="/all-journal-for-reviewing" onClick={handleNavItemClick}>All Paper</Link></li>
+                      <li><Link className="main-nav-link" to="/all-journal-for-reviewing" onClick={handleNavItemClick}>Review Papers</Link></li>
                       {/* <li><Link className="main-nav-link" to="/list-of-reviewer" onClick={handleNavItemClick}>List of Reviewer</Link></li> */}
                     </>
                   )}

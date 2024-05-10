@@ -39,108 +39,59 @@ const CompleteJournalDetailsAuthor = () => {
     getCompleteJournalDetails();
   }, []);
   return (
-    <div className="reviewer-card">
-      <h3>Title:{data?.journalDetails?.title}</h3>
-      <p>Abstract:{data?.journalDetails?.abstract} </p>
-      <p>Status: {data?.journalDetails?.status}</p>
-      <span>
-        Journal-Pdf:{" "}
-        <a
-          href={data?.journalDetails?.journal_pdf}
-          target="_blank"
-          style={{ display: "inline" }}
-        >
-          {data?.journalDetails?.journal_pdf}
-        </a>
-      </span>
-      <p>Journal-Category:{data?.journalDetails?.journalType}</p>
-      <h3 style={{ fontWeight: "bold" }}>Author Detail</h3>
-      <p>Author:{data?.journalDetails?.author?.name}</p>
-      <p>Author-Email:{data?.journalDetails?.author?.email}</p>
-      <h3 style={{ textAlign: "center" }}>Reviewers Details</h3>
-      <div
-        style={{
-          display: "flex",
-          FlexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {data &&
-          data.reviewerDetails.length &&
-          data.reviewerDetails.map((reviewer, index) => (
-            <div
-              style={{
-                width: "200px",
-                border: "2px solid black",
-                height: "150px",
-                //overflow:'auto'
-                margin: "3px",
-              }}
-            >
-              <p
-                style={{
-                  fontSize: "15px",
-                  padding: "10px",
-                  fontWeight: "bold",
-                }}
+    <>
+      <div className="reviewer-wrapper">
+        <div className="reviewer-token">
+          <div className="reviewer-discription">
+            <h3>
+              Title: <b>{data?.journalDetails?.title} </b>
+            </h3>
+            <p>Abstract: {data?.journalDetails?.abstract}</p>
+            <p>Status: {data?.journalDetails?.status}</p>
+
+            <span>
+              Journal-Pdf:{" "}
+              <a
+                href={data?.journalDetails?.journal_pdf}
+                target="_blank"
+                style={{ display: "inline" }}
               >
-                Name:{reviewer?.reviewerData?.name}
-              </p>
-              <p
-                style={{
-                  fontSize: "15px",
-                  padding: "10px",
-                  fontWeight: "bold",
-                }}
-              >
-                Email:{reviewer?.reviewerData?.email}
-              </p>
-              <p
-                style={{
-                  fontSize: "15px",
-                  padding: "10px",
-                  fontWeight: "bold",
-                }}
-              >
-                status:{reviewer?.status}
-              </p>
-            </div>
-          ))}
+                {data?.journalDetails?.journal_pdf}
+              </a>
+            </span>
+
+            <p>Journal-Category: {data?.journalDetails?.journalType}</p>
+
+            <hr />
+            <h3 style={{ fontWeight: "bold" }}>Author Detail</h3>
+            <p>Author: {data?.journalDetails?.author?.name}</p>
+            <p>Author-Email: {data?.journalDetails?.author?.email}</p>
+          </div>
+
+          <hr />
+
+           
+          <div className="reviewer-discription">
+            {/* {data &&
+              data.reviewerDetails.length &&
+              data.reviewerDetails.map((reviewer, index) => (
+                <div>
+                  <p>Name:{reviewer?.reviewerData?.name}</p>
+                  <p>Email:{reviewer?.reviewerData?.email}</p>
+                  <p>Status:{reviewer?.status}</p>
+                </div>
+              ))}  */}
+
+              <hr />
+          <h3 style={{ fontWeight: "bold" }}>Progress Of Your Paper </h3>
+
+          <p>Reviewers Added: {data?.totalReviewer}</p>
+          <p>Reviewers Accepted: {data?.acceptedReviewers}</p>
+          <p>Reviewers Rejected: {data?.rejectedReviewers}</p>
+          </div>
+        </div>
       </div>
-      <h3 style={{ textAlign: "center", padding: "4px", marginTop: "5px" }}>
-        Progress Of Your Paper
-      </h3>
-      <div style={{ width: "100%", height: "auto", border: "2px solid black" }}>
-        <p
-          style={{
-            fontSize: "15px",
-            padding: "10px",
-            fontWeight: "bold",
-          }}
-        >
-          No. of Reviewers are Added: {data?.totalReviewer}
-        </p>
-        <p
-          style={{
-            fontSize: "15px",
-            padding: "10px",
-            fontWeight: "bold",
-          }}
-        >
-          No. of Reviewers are Accepted: {data?.acceptedReviewers}
-        </p>
-        <p
-          style={{
-            fontSize: "15px",
-            padding: "10px",
-            fontWeight: "bold",
-          }}
-        >
-          No. of Reviewers are Rejected: {data?.rejectedReviewers}
-        </p>
-      </div>
-    </div>
+    </>
   );
 };
 

@@ -15,12 +15,12 @@ const transporter = nodemailer.createTransport({
         from: 'your_email@gmail.com',
         to:to,
         subject: "Journal Publication Allowtment ",
-        text:"You have allowted Journal for reviewing please check the website and confirm it",
+        text:"You have allowted Journal from reviewing please check the website and confirm it",
       });
   
       console.log('Email sent: %s', info.messageId);
       return info.messageId;
-    } catch (error) {
+    } catch (error) {h
       console.error('Error sending email:', error);
       throw error;
     }
