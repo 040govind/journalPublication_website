@@ -8,6 +8,7 @@ import axios from 'axios';
 const JournalSubmitForm = () => {
   const [formData, setFormData] = useState({
     title: '',
+    keyword:"",
     abstract: '',
     pdfFile: 'null',
     journalType: 'none',
@@ -146,7 +147,19 @@ const JournalSubmitForm = () => {
                     required
                   />
                 </div>
-
+                <div>
+                  <label htmlfor="keyword">Keyword</label>
+                  <input
+                    className="input"
+                    type="text"
+                    id="keyword"
+                    name="keyword"
+                    placeholder="Keyword"
+                    value={formData.keyword}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
                 <div>
                   <label htmlFor="abstract"> Abstract <span className="text-danger">*</span> </label>
                     <textarea className="input" 
@@ -162,7 +175,7 @@ const JournalSubmitForm = () => {
                 <div>
                   <label className="label" htmlFor="pdfFile" >Journal PDF File <span className="text-danger">*</span>
                   </label>
-                  <input className="input" type="file" name="pdfFile" onChange={handleChange} accept=".pdf" required />
+                  <input className="input" type="file" name="pdfFile" onChange={handleChange} accept=".doc,.docx" required />
                 </div>
 
                 <div> 

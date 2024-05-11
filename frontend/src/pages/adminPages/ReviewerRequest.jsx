@@ -1,28 +1,92 @@
-import React, { useState } from 'react';
-import './styles.css'; // Import your CSS file
+import React, { useState,useEffect } from 'react';
+import '../../style/reviewerrequest.css'; // Import your CSS file
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
-const data = [
-  { id: 1, name: 'John Doe', gmail: 'john.doe@gmail.com', degree: 'Computer Science', qualification: 'Bachelor' },
-  { id: 2, name: 'Jane Smith', gmail: 'jane.smith@gmail.com', degree: 'Electrical Engineering', qualification: 'Master' },
-  { id: 3, name: 'Alice Johnson', gmail: 'alice.johnson@gmail.com', degree: 'Mechanical Engineering', qualification: 'PhD' },
-  // Add more data as needed
-];
 
-const Table = () => {
-  const [applicants, setApplicants] = useState(data);
 
-  const handleAccept = (id) => {
-    // Handle accept action here, you can modify the applicant's status or remove them from the list
-    // For demonstration, let's just remove the applicant from the list
-    setApplicants(applicants.filter(applicant => applicant.id !== id));
+const ReviewerRequest = () => {
+  
+
+  const [Reqdata,setReqData]= useState([]);
+
+  const fetchAllData = async()=>{
+    try {
+        const headers = {
+          Authorization: localStorage.getItem('token'),
+          'Content-Type': 'application/json',
+        };
+  
+        const response = await axios.get('http://127.0.0.1:5000/api/v1/admin/getReviewerRequest', { headers });
+  
+        if (response.status === 200) {
+          // Assuming the response.data contains the array of journals
+          console.log(response.data.data);
+          setReqData(response.data.data);
+          toast.success('Data Fetched Successfully');
+        } else if(response.status==203){
+            toast.success('Not any Reviewer Request are Present'); 
+        }
+        else {
+          toast.error('Failed to fetch data');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        toast.error('Some internal server error');
+      }
+  }
+
+  const handleAccept = async(id) => {
+    try {
+        const headers = {
+          Authorization: localStorage.getItem('token'),
+          'Content-Type': 'application/json',
+        };
+  
+        const response = await axios.delete(`http://127.0.0.1:5000/api/v1/admin/acceptRequest/${id}`, { headers });
+  
+        if (response.status === 200) {
+            fetchAllData();
+          toast.success('Request Accepted SuccesFully');
+        } else if(response.status === 203){
+            toast.error('Failed to Accept Request');
+        }
+        else {
+          toast.error('Failed to Accept Request');
+        }
+      } catch (error) {
+        console.error('Error Accept the request:', error);
+        toast.error('Some internal server error');
+      }
   };
 
-  const handleReject = (id) => {
-    // Handle reject action here, you can modify the applicant's status or remove them from the list
-    // For demonstration, let's just remove the applicant from the list
-    setApplicants(applicants.filter(applicant => applicant.id !== id));
+  const handleReject = async(id) => {
+    try {
+        const headers = {
+          Authorization: localStorage.getItem('token'),
+          'Content-Type': 'application/json',
+        };
+  
+        const response = await axios.delete(`http://127.0.0.1:5000/api/v1/admin/acceptRequest/${id}`, { headers });
+  
+        if (response.status === 200) {
+         fetchAllData();
+          toast.success('Request Reject SuccesFully');
+        } else if(response.status === 203){
+            toast.error('Failed to Reject Request');
+        }
+        else {
+          toast.error('Failed to Reject Request');
+        }
+      } catch (error) {
+        console.error('Error Reject the request:', error);
+        toast.error('Some internal server error');
+      }
   };
 
+  useEffect(()=>{
+    fetchAllData();
+  },[])
   return (
     <div className="table-container">
       <table>
@@ -32,19 +96,21 @@ const Table = () => {
             <th>Gmail</th>
             <th>Degree</th>
             <th>Qualification</th>
+            <th>specialistArea</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {applicants.map(applicant => (
-            <tr key={applicant.id}>
-              <td>{applicant.name}</td>
-              <td>{applicant.gmail}</td>
-              <td>{applicant.degree}</td>
-              <td>{applicant.qualification}</td>
+          {Reqdata.map(applicant => (
+            <tr key={applicant._id}>
+              <td>{applicant.reviewerId.name}</td>
+              <td>{applicant.reviewerId.name}</td>
+              <td><a href={applicant.reviewerId.degree_pdf}>Degree Pdf</a></td>
+              <td>{applicant.reviewerId.qualification}</td>
+              <td>{applicant.reviewerId. specialistArea}</td>
               <td>
-                <button onClick={() => handleAccept(applicant.id)} className="accept-btn">Accept</button>
-                <button onClick={() => handleReject(applicant.id)} className="reject-btn">Reject</button>
+                <button onClick={() => handleAccept(applicant._id)} className="accept-btn">Accept</button>
+                <button onClick={() => handleReject(applicant._id)} className="reject-btn">Reject</button>
               </td>
             </tr>
           ))}
@@ -54,4 +120,4 @@ const Table = () => {
   );
 };
 
-export default Table;
+export default ReviewerRequest;

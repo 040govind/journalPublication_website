@@ -22,6 +22,7 @@ import CompleteJournalDetailsAuthor from "./pages/CompleteJournalDetailsAuthor.j
 import AllJournalForReviewing from "./pages/reviewerPages/AllJournalForReviewing.jsx";
 import FeedBackOnJournal from "./pages/reviewerPages/FeedBackOnJournal.jsx";
 import FeedBackPage from "./pages/reviewerPages/FeedBackPage.jsx";
+import ReviewerRequest from "./pages/adminPages/ReviewerRequest.jsx";
 function App() {
   return (
     <>
@@ -139,6 +140,16 @@ function App() {
               <Admin>
                 <Layout>
                   <AddReviewer />
+                </Layout>
+              </Admin>
+            }
+          />
+          <Route
+            path="/reviewer-request"
+            element={
+              <Admin>
+                <Layout>
+                  <ReviewerRequest/>
                 </Layout>
               </Admin>
             }

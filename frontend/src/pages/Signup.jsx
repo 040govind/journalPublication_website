@@ -13,6 +13,11 @@ const Signup = () => {
     email: "",
     password: "",
     qualification: "",
+    contact: "",
+    address: "",
+    city: "",
+    state: "",
+    country: "",
     degree_pdf: null,
     image: null, // New field for image upload
     isReviewer: "none",
@@ -133,6 +138,78 @@ const Signup = () => {
                 />
               </div>
               <div>
+                <label className="label" htmlFor="contact">
+                  Contact
+                </label>
+                <input
+                  className="input"
+                  type="text"
+                  id="contact"
+                  name="contact"
+                  placeholder="Your contact"
+                  value={formData.contact}
+                  maxLength="10"
+                  pattern="[0-9]{10}"
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="label" htmlFor="address">
+                  Address
+                </label>
+                <input
+                  className="input"
+                  type="text"
+                  id="address"
+                  name="address"
+                  placeholder="Your Address"
+                  value={formData.address}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="label" htmlFor="city">
+                  City
+                </label>
+                <input
+                  className="input"
+                  type="text"
+                  id="city"
+                  name="city"
+                  placeholder="Your City"
+                  value={formData.city}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="label" htmlFor="state">
+                  State
+                </label>
+                <input
+                  className="input"
+                  type="text"
+                  id="state"
+                  name="state"
+                  placeholder="Your State"
+                  value={formData.state}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="label" htmlFor="country">
+                  Country
+                </label>
+                <input
+                  className="input"
+                  type="text"
+                  id="country"
+                  name="country"
+                  placeholder="Your Country"
+                  value={formData.country}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
                 <label className="label" htmlFor="image">
                   Profile Image
                 </label>
@@ -187,6 +264,9 @@ const Signup = () => {
                   value={formData.specialistArea}
                   onChange={handleChange}
                 >
+                  <option value="none" selected disabled hidden>
+                    Select
+                  </option>
                   <option value="Biomedical Engineering">
                     Biomedical Engineering
                   </option>
