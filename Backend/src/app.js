@@ -19,8 +19,10 @@ app.use(cookieParser()) // iska use ham isiliye krte he ki jab ham client side p
 import authorRouter from './routes/author.routes.js'
 import adminRouter from './routes/admin.routes.js'
 import reviewersRoute from './routes/reviewers.routes.js';
+import publicRoute from './routes/public.routes.js';
 app.use("/api/v1/author",authorRouter);
 app.use("/api/v1/admin",adminRouter);
 app.use("/api/v1/reviewer",reviewersRoute);
+app.use("/api/v1/public",publicRoute);
 
 export {app};

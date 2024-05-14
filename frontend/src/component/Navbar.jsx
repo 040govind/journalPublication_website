@@ -63,6 +63,8 @@ const Navbar = () => {
                       <li><Link className="main-nav-link" to="/all-journal" onClick={handleNavItemClick}>All Paper</Link></li>
                       <li><Link className="main-nav-link" to="/list-of-reviewer" onClick={handleNavItemClick}>List of Reviewer</Link></li>
                       <li><Link className="main-nav-link" to="/reviewer-request" onClick={handleNavItemClick}>Reviewer Request</Link></li>
+                      <li><Link className="main-nav-link" to="/add-archive" onClick={handleNavItemClick}>Manage Archive </Link></li>
+                    
                     </>
                   )}
                   {isReviewer && (
@@ -72,6 +74,7 @@ const Navbar = () => {
                     </>
                   )}
                   
+                 
                   <li className="nav-item">
                   <Link className="main-nav-link" to="/" onClick={handleLogout}>Logout</Link>
                     {/* <button className="main-nav-link" style={{padding: "30%" ,fontSize: '15px' }} onClick={handleLogout}>
@@ -89,6 +92,7 @@ const Navbar = () => {
                   <li><Link className="main-nav-link" to="/" onClick={handleNavItemClick}>Home</Link></li>
                 </>
               )}
+              <li><Link className="main-nav-link" to="/archive" onClick={handleNavItemClick}>Archive</Link></li>
             </ul>
           
         

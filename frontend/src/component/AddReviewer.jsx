@@ -26,8 +26,7 @@ const ReviewerCard = ({ title, author, status, date }) => {
       const response = await axios.get(`http://127.0.0.1:5000/api/v1/admin/getJournal/${id}`, { headers });
 
       if (response.status === 200) {
-        // Assuming the response.data contains the array of journals
-       console.log("One journal",response.data.data);
+        
         setJournal(response.data.data);
         toast.success('Data Fetched Successfully');
       } else {
@@ -136,7 +135,9 @@ const ReviewerCard = ({ title, author, status, date }) => {
       <p>Author: {journal?.author?.name}</p>
       <p>Author-Email: {journal?.author?.email}</p>
       
-      <button className='add-reviewer-btn' onClick={handleAddReviewer}>Add Reviewer</button>
+      {
+        journal?.reviewers?.length === 0 && <button className='add-reviewer-btn' onClick={handleAddReviewer}>Add Reviewer</button>
+      }
       {
         reviewers.length > 0 ? <button className='add-reviewer-btn' onClick={setReviewer}>Submit Reviewer</button> :null
       }
@@ -150,12 +151,14 @@ const ReviewerCard = ({ title, author, status, date }) => {
           </div>
         ))}
       </div>
-      <input
+      {
+        journal?.reviewers?.length ===0 ?( <input
         type="text"
         placeholder="Search Reviewer"
         value={searchInput.name}
         onChange={(e) => handleSearch(e.target.value)}
-      />
+      />):<p style={{color:"red"}}>Reviewer Allready Addes</p>
+      }
       {searchReviewer.length > 0 && (
         <div className="search-results">
           <p>Search Results:</p>

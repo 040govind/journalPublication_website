@@ -23,6 +23,10 @@ import AllJournalForReviewing from "./pages/reviewerPages/AllJournalForReviewing
 import FeedBackOnJournal from "./pages/reviewerPages/FeedBackOnJournal.jsx";
 import FeedBackPage from "./pages/reviewerPages/FeedBackPage.jsx";
 import ReviewerRequest from "./pages/adminPages/ReviewerRequest.jsx";
+import ArchiveAdd from "./pages/adminPages/ArchiveAdd.jsx";
+import Archive from "./pages/Archive.jsx";
+import Issue from "./pages/Issue.jsx";
+import ArchivePaper from "./pages/ArchivePaper.jsx";
 function App() {
   return (
     <>
@@ -35,6 +39,30 @@ function App() {
             element={
               <Layout>
                 <Home />
+              </Layout>
+            }
+          />
+          <Route
+            path="/archive"
+            element={
+              <Layout>
+                <Archive />
+              </Layout>
+            }
+          />
+           <Route
+            path="/archive/:vol"
+            element={
+              <Layout>
+                <Issue />
+              </Layout>
+            }
+          />
+          <Route
+            path="/archive/:vol/:issu"
+            element={
+              <Layout>
+                <ArchivePaper />
               </Layout>
             }
           />
@@ -150,6 +178,16 @@ function App() {
               <Admin>
                 <Layout>
                   <ReviewerRequest/>
+                </Layout>
+              </Admin>
+            }
+          />
+          <Route
+            path="/add-archive"
+            element={
+              <Admin>
+                <Layout>
+                  <ArchiveAdd/>
                 </Layout>
               </Admin>
             }

@@ -51,6 +51,7 @@ const journalSchema = new mongoose.Schema({
     required: true,
   },
   reviewers: [{
+    
     status: {
       type: String,
       enum: ['none', 'accept', 'reject','feedbackGiven'],
