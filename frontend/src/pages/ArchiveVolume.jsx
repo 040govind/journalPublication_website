@@ -1,19 +1,18 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import IssueCard from '../component/IssueCard';
-import { useParams } from "react-router-dom";
+import VolumeCard from '../component/VolumeCard';
+import '../style/volumecard.css';
 
-const Issue = () => {
-     const [issueData,setIssueData] = useState([]);
-     let {vol} = useParams();
-    const fetchIssue = async()=>{
+const ArchiveVolume = () => {
+     const [volumeData,setVolumeData] = useState([]);
+    const fetchVolume = async()=>{
         try {
-            const response = await axios.get(`http://127.0.0.1:5000/api/v1/public/get-issue-data/${vol}`);
+            const response = await axios.get('http://127.0.0.1:5000/api/v1/public/get-archive-data');
         // console.log(response);
           if (response.status === 200) {
             //console.log(response.data.data);
-            setIssueData(response.data.data);
+            setVolumeData(response.data.data);
             toast.success('Volume Data Fetched  Successfully');
           } else if(response.status === 201){
             toast.error("Volume not Present");
@@ -27,15 +26,15 @@ const Issue = () => {
         }
     } 
     useEffect(()=>{
-        fetchIssue();
+        fetchVolume();
     },[])
   return (
-    <div style={{display:"flex", flexWrap:"wrap"}}>
-      {issueData.map((item) => (
-          <IssueCard key={item} issue={item} volume={vol} />
+    <div className='archive-wrapper'>
+      {volumeData.map((vol) => (
+          <VolumeCard key={vol._id} volume={vol.volume} />
         ))}  
     </div>
   );
 }
 
-export default Issue;
+export default ArchiveVolume;

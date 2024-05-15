@@ -28,7 +28,7 @@ const journalSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'underReview', 'minor','major','submitted', 'published'],
+    enum: ['pending', 'UnderReview', 'minor','minorRaised','major','minorRaised','accepted', 'published'],
     default: 'pending',
   },
   date: {
@@ -51,7 +51,12 @@ const journalSchema = new mongoose.Schema({
     required: true,
   },
   reviewers: [{
-    
+    journalStatus:{
+      type: String,
+      enum: ['none','minor','major','UnderReview','Accepted'],
+      default:  'none'
+
+    },
     status: {
       type: String,
       enum: ['none', 'accept', 'reject','feedbackGiven'],

@@ -6,7 +6,7 @@ const reviewerRequestSchema = new Schema({
         ref:"User",
         required:true
     }
-   
+
    },{timestamp:true});
-   
+
    export const ReviewerRequest = mongoose.model("ReviewerRequest",reviewerRequestSchema);

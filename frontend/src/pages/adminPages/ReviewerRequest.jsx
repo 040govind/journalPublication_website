@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import '../../style/reviewerrequest.css'; // Import your CSS file
+import '../../style/allreviewers.css';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -8,7 +9,7 @@ import toast from 'react-hot-toast';
 const ReviewerRequest = () => {
   
 
-  const [Reqdata,setReqData]= useState([]);
+  const [Reviewer,setReviewer]= useState([]);
 
   const fetchAllData = async()=>{
     try {
@@ -22,7 +23,7 @@ const ReviewerRequest = () => {
         if (response.status === 200) {
           // Assuming the response.data contains the array of journals
           console.log(response.data.data);
-          setReqData(response.data.data);
+          setReviewer(response.data.data);
           toast.success('Data Fetched Successfully');
         } else if(response.status==203){
             toast.success('Not any Reviewer Request are Present'); 
@@ -88,32 +89,39 @@ const ReviewerRequest = () => {
     fetchAllData();
   },[])
   return (
-    <div className="table-container">
-      <table>
+    <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
+      <table id='reviewers-table'> 
         <thead>
           <tr>
             <th>Name</th>
-            <th>Gmail</th>
+            <th>Email</th>
             <th>Degree</th>
             <th>Qualification</th>
-            <th>specialistArea</th>
+            <th>Track</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {Reqdata.map(applicant => (
-            <tr key={applicant._id}>
-              <td>{applicant.reviewerId.name}</td>
-              <td>{applicant.reviewerId.name}</td>
-              <td><a href={applicant.reviewerId.degree_pdf}>Degree Pdf</a></td>
-              <td>{applicant.reviewerId.qualification}</td>
-              <td>{applicant.reviewerId. specialistArea}</td>
-              <td>
-                <button onClick={() => handleAccept(applicant._id)} className="accept-btn">Accept</button>
-                <button onClick={() => handleReject(applicant._id)} className="reject-btn">Reject</button>
-              </td>
-            </tr>
-          ))}
+          
+        {Reviewer.length > 0 ? (
+  Reviewer.map(applicant => (
+    <tr key={applicant._id}>
+      <td>{applicant.reviewerId.name}</td>
+      <td>{applicant.reviewerId.email}</td>
+      <td><a href={applicant.reviewerId.degree_pdf}>Degree Pdf</a></td>
+      <td>{applicant.reviewerId.qualification}</td>
+      <td>{applicant.reviewerId.specialistArea}</td>
+      <td>
+        <button onClick={() => handleAccept(applicant._id)} className="accept-btn">Accept</button>
+        <button onClick={() => handleReject(applicant._id)} className="reject-btn">Reject</button>
+      </td>
+    </tr>
+  ))
+) : (
+  <tr>
+    <td colSpan="6" style={{textAlign:"center"}}>NO DATA</td>
+  </tr>
+)}
         </tbody>
       </table>
     </div>

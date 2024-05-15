@@ -4,9 +4,9 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { Journal } from "../models/journal.model.js";
+import {uploadOnCloudinary} from "../utils/cloudinary.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { sendEmail } from "../utils/nodemailer.js";
-import {uploadOnCloudinary} from "../utils/cloudinary.js";
 import { ReviewerRequest } from "../models/reviewerRequest.model.js";
 import { ArchiveVolumeHelper } from "../models/archiveVolumeHelper.model.js";
 import { ArchiveVolume } from "../models/archiveVolume.model.js";
@@ -26,6 +26,24 @@ const getAllReviewer = asyncHandler(async (req, res) => {
         throw new ApiError(500, "Some internal Server Error");
     }
 });
+
+const getAllAuthor = asyncHandler(async (req, res) => {
+    try {
+        const author = await User.find({ isReviewer: false , isAdmin: false });
+        if (!author) {
+            throw new ApiError(500, "Authors is not find");
+        }
+
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(200, author, "All Authors are fetched successfully")
+            );
+    } catch (error) {
+        throw new ApiError(500, "Some internal Server Error");
+    }
+});
+
 
 const getAllJournals = asyncHandler(async (req, res) => {
     try {
@@ -82,26 +100,85 @@ const setReviewers = asyncHandler(async(req,res)=>{
     try {
         const {id} = req.params;
         let reviewers = req.body
-        //console.log(reviewers);
+        // console.log(reviewers);
 
         const journalData = await Journal.findOne({_id:id});
+
 
         if(!journalData){
             console.log("journal data is not present");
             throw new ApiError(400,"Journal data is not find in database")
         }
-        
-        for(let i=0;i<reviewers.length;i++){
-            journalData.reviewers.push(reviewers[i]._id);
-            // const mailRes= await sendEmail(reviewers[i].email);
-            // if(!mailRes){
-            //   console.log("some error while sending mail to Reviewer");
-            //   throw new ApiError(405,"error while sending mail");
-            // }
-            // console.log("mail send");
-        }
 
-        journalData.status = "underReview";
+        console.log(reviewers[0]._id);
+
+        // const existingReviewerIds = new Set(journalData.reviewers.map(reviewer => reviewer._id));
+
+        // // Filter out reviewers that are not included in the new array
+        // const updatedReviewers = existingReviewers.filter(reviewer => existingReviewerIds.has(reviewer._id));
+    
+        // // Add new reviewers to the existing array
+        // newReviewers.forEach(newReviewer => {
+        //     if (!existingReviewerIds.has(newReviewer._id)) {
+        //         updatedReviewers.push(newReviewer);
+        //     }
+        // });
+
+         for(let i=0;i<journalData.reviewers.length;i++){
+            let flag= false;
+
+            for(let j=0;j<reviewers.length;j++){
+                if(journalData.reviewers[i]._id==reviewers[j]._id){
+                    flag= true;
+                }
+            }
+            if(flag== false){
+                journalData.reviewers.splice(i,1);
+                i--;
+            }
+            
+         }
+
+         for(let j=0;j<reviewers.length;j++){
+             let flag= false;
+             
+             for(let i=0;i<journalData.reviewers.length;i++){
+                if(journalData.reviewers[i]._id==reviewers[j]._id){
+                    flag= true;
+                }
+            }
+            if(flag== false){
+                journalData.reviewers.push(reviewers[j]._id);
+                
+            }
+            
+         }
+
+        // const existingReviewers = new Set(journalData.reviewers.map(reviewer => reviewer._id));
+        // const newReviewers = new Set(reviewers.map(reviewer => reviewer._id));
+        
+        // // Remove reviewers not in the new list
+        // journalData.reviewers = journalData.reviewers.filter(reviewer => newReviewers.has(reviewer._id));
+        
+        // // Add new reviewers not already in the existing list
+        // reviewers.forEach(reviewer => {
+        //     if (!existingReviewers.has(reviewer._id)) {
+        //         journalData.reviewers.push({ _id: reviewer._id });
+        //     }
+        // });
+       
+
+        // for(let i=0;i<reviewers.length;i++){
+        //     journalData.reviewers.push(reviewers[i]._id);
+        //     // const mailRes= await sendEmail(reviewers[i].email);
+        //     // if(!mailRes){
+        //     //   console.log("some error while sending mail to Reviewer");
+        //     //   throw new ApiError(405,"error while sending mail");
+        //     // }
+        //     // console.log("mail send");
+        // }
+
+        journalData.status = "UnderReview";
 
         const updateInfo = await journalData.save();
 
@@ -124,7 +201,7 @@ const getAllReviewerRequest = asyncHandler(async(req,res)=>{
     try {
         const data = await ReviewerRequest.find({}).populate({
             path: 'reviewerId',
-            select: 'name gmail qualification degree_pdf specialistArea',
+            select: 'name email qualification degree_pdf specialistArea',
         });
 
         if(!data){
@@ -182,6 +259,43 @@ const acceptRequest = asyncHandler(async(req,res)=>{
      }
 });
 
+const acceptPaper = asyncHandler(async(req,res)=>{
+    try {
+        console.log("acceptPaper == ");
+       const id = req.params.id;
+
+       const journaldata = await Journal.findById({_id:id});
+       journaldata.status = 'accepted';
+       await journaldata.save();
+       res.status(200)
+       .json(
+           new ApiResponse(200,"Journal Accepted Succesfully")
+       );
+    } catch (error) {
+       console.log("Error while accepting the Journal",error);
+       throw new ApiError(500, "Error while accepting the Journal");
+    }
+});
+
+const getUsertDetails = asyncHandler(async(req,res)=>{
+    try {
+      
+       const id = req.params.id;
+
+       const userData = await User.findById({_id:id});
+       
+       if(!userData){
+        throw new ApiError(400,"Some error when fetching User from database");
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200,{data:userData},"User data fetched successfully")
+    );
+    } catch (error) {
+        throw new ApiError(500,"Some internal Server Error");
+    }
+});
+
 
 const rejectRequest = asyncHandler(async(req,res)=>{
     try {
@@ -191,7 +305,7 @@ const rejectRequest = asyncHandler(async(req,res)=>{
        
        const deleteItem = await ReviewerRequest.findByIdAndDelete({_id:id});
        if(!deleteItem){
-           return res.status(203)
+           return res.status(200)
            .json(
                new ApiResponse(203,"Some error occur while rejecting  the request")
            );  
@@ -359,14 +473,16 @@ const addArchive = asyncHandler(async(req,res)=>{
        }
 });
 
-
 export { 
     getAllReviewer,
+    getAllAuthor,
     getAllJournals,
     getJournal,
     setReviewers,
     getAllReviewerRequest,
     acceptRequest,
+    acceptPaper,
+    getUsertDetails,
     rejectRequest,
     getAllVolume,
     addVolume,

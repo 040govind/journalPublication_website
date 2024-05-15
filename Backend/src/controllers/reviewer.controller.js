@@ -5,22 +5,17 @@ import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
 import { Journal } from "../models/journal.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { sendEmail } from "../utils/nodemailer.js";
 import { FeedBack } from "../models/feedback.model.js";
+import { sendEmail } from "../utils/nodemailer.js";
 
 const getAllJournalsForReview = asyncHandler(async(req,res)=>{
     try {
         const reviewer = req.user._id;
         //console.log("here");
-        const journals = await Journal.find({'reviewers._id':new mongoose.Types.ObjectId(reviewer)}).populate({
-            path: "author",
-            model: User,
-            select: "name email qualification", // Select only the 'name' and 'email' fields from the User model
-        })
-        .exec();
+        const journals = await Journal.find({'reviewers._id':new mongoose.Types.ObjectId(reviewer)});
         if(journals.length === 0){
-           return res.status(200).josn(
-            new ApiResponse(200,"Not Any paper present for reviewing")
+           return res.status(200).json(
+            new ApiResponse(200,[],"Not Any paper present for reviewing")
            );
         }
 
@@ -124,16 +119,15 @@ const RejectHandler = asyncHandler(async(req,res)=>{
             );
         
     } catch (error) {
-        console.log("error while rejecthandler", error);
+        console.log("error while accepthandler", error);
         throw new ApiError(500, "Some internal Server Error");
     }
-});
-
+})
 
 const SetFeedBack = asyncHandler(async(req,res)=>{
     try {
         const { q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, feedback, journalId } = req.body;
-
+        let user = req.user._id;
         let journalData = await Journal.findById({_id:journalId});
         //console.log(journalData);
         if(!journalData){
@@ -172,7 +166,17 @@ const SetFeedBack = asyncHandler(async(req,res)=>{
        {
         throw new ApiError(500, "Error while saving data into database ");
        }
-       journalData.status = "Reviewcomplete";
+       if(journalData.status !== 'minor' ||  journalData.status !=='major')
+        journalData.status = q12;
+        const filteredReviewer = journalData.reviewers.filter(function(reviewer) {
+         // console.log(reviewer._id)
+         return reviewer._id.toString() === user.toString();
+       });
+       console.log(filteredReviewer)
+       if (filteredReviewer.length > 0) {
+         filteredReviewer[0].journalStatus = q12;
+         filteredReviewer[0].status = 'feedbackGiven';
+      }
        await journalData.save();
 
        res.status(200).json(
@@ -183,6 +187,7 @@ const SetFeedBack = asyncHandler(async(req,res)=>{
         throw new ApiError(500, "Some internal Server Error");
     }
 })
+
 
 export{
     getAllJournalsForReview,

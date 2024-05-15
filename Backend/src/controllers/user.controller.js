@@ -8,7 +8,6 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import {uploadOnCloudinary} from "../utils/cloudinary.js";
 import { ReviewerRequest } from "../models/reviewerRequest.model.js";
 import { PaperId } from "../models/paperId.model.js";
-import { ArchiveVolume } from "../models/archiveVolume.model.js";
 
 
 //yha pr ham ek alag se access token or refresh token genarate krne ki method banayenge 
@@ -26,9 +25,6 @@ const  generateAccessAndRefereshTokens= async(userId)=>{
         throw new ApiError(500,"something went wrong while genarating refresh and access token");
     }
 }
-
-
-
 
 const registerUser =asyncHandler(async(req,res)=>{
     // get user details from frontend

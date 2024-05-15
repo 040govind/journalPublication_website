@@ -2,20 +2,20 @@
     max-width: 600px;
     margin: 0 auto;
   }
-  
+
   .archive-form-container h1 {
     text-align: center;
   }
-  
+
   .archive-form-container form {
     display: flex;
     flex-direction: column;
   }
-  
+
   .archive-form-container label {
     margin-bottom: 8px;
   }
-  
+
   .archive-form-container input[type="text"],
   .archive-form-container input[type="date"],
   .archive-form-container select,
@@ -27,11 +27,11 @@
     border-radius: 4px;
     box-sizing: border-box;
   }
-  
+
   .archive-form-container textarea {
     height: 100px; /* Adjust height as needed */
   }
-  
+
   .archive-form-container button[type="submit"] {
     width: 100%;
     padding: 10px;
@@ -41,16 +41,16 @@
     border-radius: 4px;
     cursor: pointer;
   }
-  
+
   .archive-form-container button[type="submit"]:hover {
     background-color: #0056b3;
   }
-  
+
   /* Styling for file input */
   .archive-form-container input[type="file"] {
     margin-top: 8px;
   }
-  
+
   /* Optional: Additional styles for dropdown select */
   .archive-form-container select {
     appearance: none;
@@ -60,4 +60,3 @@
     background-color: #fff;
     cursor: pointer;
   }
-  

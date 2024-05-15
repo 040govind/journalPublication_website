@@ -11,10 +11,8 @@ import Home from "./pages/Home";
 
 import About from "./pages/About.jsx";
 import Profile from "./pages/Profile.jsx";
-import Navbar from "./component/Navbar.jsx";
-import Footer from "./component/Footer.jsx";
-import AllReviewer from "./pages/AllReviewer.jsx";
-import AllJournal from "./pages/AllJournal.jsx";
+import AllReviewer from "./pages/adminPages/AllReviewer.jsx";
+import AllJournal from "./pages/adminPages/AllJournal.jsx";
 import AddReviewer from "./component/AddReviewer.jsx";
 import Layout from "./component/Layout.jsx";
 import AllSubmittedJournalAuthor from "./pages/AllSubmittedJournalAuthor.jsx";
@@ -22,11 +20,19 @@ import CompleteJournalDetailsAuthor from "./pages/CompleteJournalDetailsAuthor.j
 import AllJournalForReviewing from "./pages/reviewerPages/AllJournalForReviewing.jsx";
 import FeedBackOnJournal from "./pages/reviewerPages/FeedBackOnJournal.jsx";
 import FeedBackPage from "./pages/reviewerPages/FeedBackPage.jsx";
+import Instructions from "./pages/Instructions.jsx";
+import AllAuthors from "./pages/adminPages/AllAuthors.jsx";
+import PaperInReview from "./pages/adminPages/PaperInReview.jsx";
 import ReviewerRequest from "./pages/adminPages/ReviewerRequest.jsx";
+import TrackProgress from "./pages/adminPages/TrackProgress.jsx";
+import TrackDetails from "./pages/adminPages/TrackDetails.jsx";
+import AcceptedPapers from "./pages/adminPages/AcceptedPapers.jsx";
+import UserDetails from "./pages/adminPages/UserDetails.jsx";
 import ArchiveAdd from "./pages/adminPages/ArchiveAdd.jsx";
-import Archive from "./pages/Archive.jsx";
-import Issue from "./pages/Issue.jsx";
 import ArchivePaper from "./pages/ArchivePaper.jsx";
+import Issue from "./pages/ArchiveIssue.jsx";
+import Archive from "./pages/ArchiveVolume.jsx";
+import JournalDetails from "./pages/JournalDetails.jsx";
 function App() {
   return (
     <>
@@ -40,6 +46,28 @@ function App() {
               <Layout>
                 <Home />
               </Layout>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <Public>
+                <Layout>
+                  {" "}
+                  <Signup />
+                </Layout>
+              </Public>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <Public>
+                <Layout>
+                  {" "}
+                  <Login />
+                </Layout>
+              </Public>
             }
           />
           <Route
@@ -67,25 +95,11 @@ function App() {
             }
           />
           <Route
-            path="/signup"
+            path="/archive/:vol/:issu/:id"
             element={
-              <Public>
-                <Layout>
-                  {" "}
-                  <Signup />
-                </Layout>
-              </Public>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <Public>
-                <Layout>
-                  {" "}
-                  <Login />
-                </Layout>
-              </Public>
+              <Layout>
+                <JournalDetails />
+              </Layout>
             }
           />
           <Route
@@ -96,6 +110,15 @@ function App() {
               </Layout>
             }
           />
+          <Route
+            path="/instructions"
+            element={
+              <Layout>
+                <Instructions />
+              </Layout>
+            }
+          />
+
 
           <Route
             path="/submit_paper"
@@ -142,6 +165,17 @@ function App() {
             }
           />
           <Route
+            path="/admin/track_details/:id"
+            element={
+              <Admin>
+                <Layout>
+                  {" "}
+                  <TrackDetails />
+                </Layout>
+              </Admin>
+            }
+          />
+          <Route
             path="/all-journal"
             element={
               <Admin>
@@ -163,11 +197,11 @@ function App() {
             }
           />
           <Route
-            path="/journal/:id"
+            path="/all-authors"
             element={
               <Admin>
                 <Layout>
-                  <AddReviewer />
+                  <AllAuthors />
                 </Layout>
               </Admin>
             }
@@ -177,17 +211,67 @@ function App() {
             element={
               <Admin>
                 <Layout>
-                  <ReviewerRequest/>
+                  <ReviewerRequest />
                 </Layout>
               </Admin>
             }
           />
           <Route
-            path="/add-archive"
+            path="/paper-in-review"
             element={
               <Admin>
                 <Layout>
-                  <ArchiveAdd/>
+                  <PaperInReview />
+                </Layout>
+              </Admin>
+            }
+          />
+          <Route
+            path="/accepted-papers"
+            element={
+              <Admin>
+                <Layout>
+                  <AcceptedPapers />
+                </Layout>
+              </Admin>
+            }
+          />
+          <Route
+            path="/user-details/:id"
+            element={
+              <Admin>
+                <Layout>
+                  <UserDetails />
+                </Layout>
+              </Admin>
+            }
+          />
+          <Route
+            path="/manage-archive"
+            element={
+              <Admin>
+                <Layout>
+                  <ArchiveAdd />
+                </Layout>
+              </Admin>
+            }
+          />
+          <Route
+            path="/track-progress"
+            element={
+              <Admin>
+                <Layout>
+                  <TrackProgress />
+                </Layout>
+              </Admin>
+            }
+          />
+          <Route
+            path="/journal/:id"
+            element={
+              <Admin>
+                <Layout>
+                  <AddReviewer />
                 </Layout>
               </Admin>
             }

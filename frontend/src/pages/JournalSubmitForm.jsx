@@ -181,10 +181,16 @@ const JournalSubmitForm = () => {
                 <div> 
                   <label className="label" htmlFor="journalType">Journal Type <span className="text-danger">*</span></label>
                   <select  className="input" name="journalType" value={formData.journalType} onChange={handleChange} required>
-                    <option value="none" selected disabled>Select</option>
-                    <option value="ml">Machine Learning</option>
-                    <option value="web-dev">Web Development</option>
-                    <option value="deep-learning">Deep Learning</option>
+                  <option value="none" selected disabled hidden>Select</option>
+                    <option value="Biomedical Engineering">Biomedical Engineering</option>
+                    <option value="Chemical Engineering">Chemical Engineering</option>
+                    <option value="Civil Engineering">Civil Engineering</option>
+                    <option value="Communication Engineering">Communication Engineering</option>
+                    <option value="Computer Science and Applications">Computer Science and Applications</option>
+                    <option value="Electrical and Electronic Engineering">Electrical and Electronic Engineering</option>
+                    <option value="Fundamental and Applied Sciences">Fundamental and Applied Sciences</option>
+                    <option value="Manufacturing and Industrial Engineering">Manufacturing and Industrial Engineering</option>
+                    <option value="Mechanical Engineering and Technology">Mechanical Engineering and Technology</option>
                   </select>
                 </div>
                 <button className="submit-button" type="submit">Submit</button>

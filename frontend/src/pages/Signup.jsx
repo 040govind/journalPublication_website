@@ -264,34 +264,16 @@ const Signup = () => {
                   value={formData.specialistArea}
                   onChange={handleChange}
                 >
-                  <option value="none" selected disabled hidden>
-                    Select
-                  </option>
-                  <option value="Biomedical Engineering">
-                    Biomedical Engineering
-                  </option>
-                  <option value="Chemical Engineering">
-                    Chemical Engineering
-                  </option>
-                  <option value="Civil Engineering">Civil Engineering</option>
-                  <option value="Communication Engineering">
-                    Communication Engineering
-                  </option>
-                  <option value="Computer Science and Applications">
-                    Computer Science and Applications
-                  </option>
-                  <option value="Electrical and Electronic Engineering">
-                    Electrical and Electronic Engineering
-                  </option>
-                  <option value="Fundamental and Applied Sciences">
-                    Fundamental and Applied Sciences
-                  </option>
-                  <option value="Manufacturing and Industrial Engineering">
-                    Manufacturing and Industrial Engineering
-                  </option>
-                  <option value="Mechanical Engineering and Technology">
-                    Mechanical Engineering and Technology
-                  </option>
+                  <option value="none" selected disabled hidden>Select</option>
+                    <option value="Biomedical Engineering">Biomedical Engineering</option>
+                    <option value="Chemical Engineering">Chemical Engineering</option>
+                    <option value="Civil Engineering">Civil Engineering</option>
+                    <option value="Communication Engineering">Communication Engineering</option>
+                    <option value="Computer Science and Applications">Computer Science and Applications</option>
+                    <option value="Electrical and Electronic Engineering">Electrical and Electronic Engineering</option>
+                    <option value="Fundamental and Applied Sciences">Fundamental and Applied Sciences</option>
+                    <option value="Manufacturing and Industrial Engineering">Manufacturing and Industrial Engineering</option>
+                    <option value="Mechanical Engineering and Technology">Mechanical Engineering and Technology</option>
                   {/* Add more options as needed */}
                 </select>
               </div>
@@ -327,136 +309,7 @@ const Signup = () => {
         </div>
       </div>
     </section>
-    //   <div className="container">
-    //   <div className="form">
-    //     <h2 className="form-title">Sign up</h2>
-    //     <form className="form-content" onSubmit={handleSubmit}>
-    //       <div className="form-group">
-    //         <label className="label" htmlFor="name">
-    //           Your Name
-    //         </label>
-    // <input
-    //   className="input"
-    //   type="text"
-    //   id="name"
-    //   name="name"
-    //   placeholder="Your Name"
-    //   value={formData.name}
-    //   onChange={handleChange}
-    // />
-    //       </div>
-    //       <div className="form-group">
-    //         <label className="label" htmlFor="email">
-    //           Your Email
-    //         </label>
-    // <input
-    //   className="input"
-    //   type="email"
-    //   id="email"
-    //   name="email"
-    //   placeholder="Your Email"
-    //   value={formData.email}
-    //   onChange={handleChange}
-    // />
-    //       </div>
-    //       <div className="form-group">
-    // <label className="label" htmlFor="password">
-    //   Password
-    // </label>
-    // <input
-    //   className="input"
-    //   type="password"
-    //   id="password"
-    //   name="password"
-    //   placeholder="Password"
-    //   value={formData.password}
-    //   onChange={handleChange}
-    // />
-    //       </div>
-    //       <div className="form-group">
-    // <label className="label" htmlFor="qualification">
-    //   Qualification
-    // </label>
-    // <input
-    //   className="input"
-    //   type="text"
-    //   id="qualification"
-    //   name="qualification"
-    //   placeholder="Your Qualification"
-    //   value={formData.qualification}
-    //   onChange={handleChange}
-    // />
-    //       </div>
-    //       <div className="form-group">
-    // <label className="label" htmlFor="degree_pdf">
-    //   Degree PDF
-    // </label>
-    // <input
-    //   className="input"
-    //   type="file"
-    //   id="degree_pdf"
-    //   name="degree_pdf"
-    //   onChange={handleChange}
-    // />
-    //       </div>
-    //       <div className="form-group">
-    // <label className="label" htmlFor="isReviewer">
-    //   Are you a reviewer?
-    // </label>
-    // <select
-    //   className="input"
-    //   id="isReviewer"
-    //   name="isReviewer"
-    //   value={formData.isReviewer}
-    //   onChange={handleChange}
-    // >
-    //   <option value="yes">Yes</option>
-    //   <option value="no">No</option>
-    // </select>
-    //       </div>
-    //       <div className="form-group">
-    // <label className="label" htmlFor="specialistArea">
-    //   Specialist Area
-    // </label>
-    // <select
-    //   className="input"
-    //   id="specialistArea"
-    //   name="specialistArea"
-    //   value={formData.specialistArea}
-    //   onChange={handleChange}
-    // >
-    //   <option value="ml">Machine Learning</option>
-    //   <option value="webdev">Web Development</option>
-    //   <option value="mechanical">Mechanical</option>
-    //   {/* Add more options as needed */}
-    // </select>
-    //       </div>
-    //       <div className="form-group checkbox-label">
-    // <input
-    //   type="checkbox"
-    //   id="agree-term"
-    //   className="agree-term"
-    //   name="agreeTerm"
-    //   checked={formData.agreeTerm}
-    //   onChange={handleChange}
-    // />
-    // <label className="label-agree-term" htmlFor="agree-term">
-    //   <span></span>
-    //   I agree to all statements in{' '}
-    //   <Link to="#">Terms</Link>
-    //   <a className="term-service" href="#">
-    //     Terms of service
-    //   </a>
-    // </label>
-    //       </div>
-    //       <div className="form-group">
-    // <button className="submit-button" type="submit">
-    //   Register
-    // </button>
-    //       </div>
-    //     </form>
-    //   </div>
-    // </div>
+  
   );
 };
 export default Signup;
