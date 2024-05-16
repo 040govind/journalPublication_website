@@ -8,7 +8,8 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import {uploadOnCloudinary} from "../utils/cloudinary.js";
 import { ReviewerRequest } from "../models/reviewerRequest.model.js";
 import { PaperId } from "../models/paperId.model.js";
-
+import { FeedBack } from "../models/feedback.model.js";
+import { Revision } from "../models/Revision.model.js";
 
 //yha pr ham ek alag se access token or refresh token genarate krne ki method banayenge 
 
@@ -353,7 +354,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
             const data = await User.findById(output).select('name email');
             reviewerDetails.push({ status: reviewer.status, reviewerData: data });
 
-            if (reviewer.status === 'accept') {
+            if (reviewer.status === 'accept' || reviewer.status === 'feedbackGiven') {
                 acceptedReviewers++;
             } else if (reviewer.status === 'reject') {
                 rejectedReviewers++;
@@ -376,6 +377,95 @@ const getUserProfile = asyncHandler(async (req, res) => {
     }
 });
 
+const getFeedBack = asyncHandler(async(req,res)=>{
+    try {
+        const user = req.user._id;
+        //console.log(user);
+        const journalId = req.params.id;
+        const feedBackData = await FeedBack.find({author:user,latest:true,journal:journalId});
+        //console.log(feedBackData);
+        if(!feedBackData){
+            return res.status(201).json(
+                "There is Not any feedback");
+        }
+
+        res.status(200)
+            .json(
+                new ApiResponse(200,feedBackData,"All Journal Fetched Successfully")
+            );
+    } catch (error) {
+        console.log("Error while fetching complete Feedback on paper author controller:", error);
+        throw new ApiError(500, "Some internal Server Error"); 
+    }
+});
+
+const uplaodUpdateJournal = asyncHandler(async(req,res)=>{
+    try {
+        //console.log(req.body);
+        //console.log(req.file);
+
+        let journalData = await Journal.findOne({_id:req.body.journalId});
+        if(!journalData){
+            return res.status(201).json(
+                "Journal is not present ");
+        }
+
+        const previousPdf = journalData.journal_pdf;
+        //console.log(previousPdf);
+        const ReviewerStatus = journalData.reviewers.filter(function(reviewer) {
+            // console.log(reviewer._id)
+            return reviewer.journalStatus === "minor" || reviewer.journalStatus === "major";
+          });
+          for(let i=0;i<ReviewerStatus.length;i++)
+            {
+                ReviewerStatus[i].journalStatus = "UnderReview";
+                ReviewerStatus[i].status= "accept";
+            }
+
+            let feedBackData = await FeedBack.findOne({journal:req.body.journalId, latest:true});
+           // console.log(feedBackData);
+           if(!feedBackData){
+            return res.status(201).json(
+                "Feedback is not present ");
+           }
+
+           const localJournalPath = req.file?.path;
+           console.log("localJournalPath",localJournalPath);
+           if(!localJournalPath){
+              throw new ApiError(400,"Journal  is required");
+           }
+           const journalUrl = await uploadOnCloudinary(localJournalPath,'Journal_pdf');
+            //console.log("journal clould url",journalUrl.url);
+           if(!journalUrl){
+              throw new ApiError(400,"Some error when upload the journal on server");
+           }
+           let revisionData = await Revision.findOne({journalId:req.body.journalId});
+
+           if(revisionData === null){
+            let revision = await Revision.create({
+                journalId: req.body.journalId,
+                journalPdf:[previousPdf]
+            });
+           }else{
+            revisionData.journalPdf.push(previousPdf);
+             await  revisionData.save();
+           }
+           console.log(revisionData);
+           feedBackData.latest=false;
+           journalData.status="UnderReview";
+           journalData.journal_pdf = journalUrl.url;
+           await journalData.save();
+           await feedBackData.save();
+
+           res.status(200)
+            .json(
+                new ApiResponse(200,[],"Paper update succesfully")
+            );
+    } catch (error) {
+        console.log("Error while Submitting updated Paper author controller:", error);
+        throw new ApiError(500, "Some internal Server Error");
+    }
+})
 
 export {
     registerUser,
@@ -383,5 +473,7 @@ export {
     uplaodJournal,
     getJournal,
     getUserProfile,
-    getCompleteDetailsOfJournal
+    getCompleteDetailsOfJournal,
+    getFeedBack,
+    uplaodUpdateJournal
 }

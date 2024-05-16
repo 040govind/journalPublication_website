@@ -33,6 +33,8 @@ import ArchivePaper from "./pages/ArchivePaper.jsx";
 import Issue from "./pages/ArchiveIssue.jsx";
 import Archive from "./pages/ArchiveVolume.jsx";
 import JournalDetails from "./pages/JournalDetails.jsx";
+import ShowFeedbackPageAuthor from "./pages/ShowFeedbackPageAuthor.jsx";
+import RevisionJournal from "./pages/RevisionJournal.jsx";
 function App() {
   return (
     <>
@@ -138,6 +140,28 @@ function App() {
                 <Layout>
                   {" "}
                   <Profile />
+                </Layout>
+              </Protected>
+            }
+          />
+          <Route
+            path="/journal/author/feedback/:id"
+            element={
+              <Protected>
+                <Layout>
+                  {" "}
+                  <ShowFeedbackPageAuthor />
+                </Layout>
+              </Protected>
+            }
+          />
+          <Route
+            path="/journal/author/revision/:id"
+            element={
+              <Protected>
+                <Layout>
+                  {" "}
+                  <RevisionJournal />
                 </Layout>
               </Protected>
             }

@@ -4,6 +4,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import '../../style/reviewerrequest.css';
+import { Link } from "react-router-dom";
 
 const TrackDetails = () => {
     const [data, setData] = useState(null);
@@ -49,6 +50,7 @@ const TrackDetails = () => {
                             <th>Reviewer Name</th>
                             <th>Email</th>
                             <th>Status</th>
+                            <th>FeedBack</th>
                             <th>Remind</th>
                         </tr>
                     </thead>
@@ -60,6 +62,7 @@ const TrackDetails = () => {
                                     <td>{reviewer?.reviewerData?.name}</td>
                                     <td>{reviewer?.reviewerData?.email}</td>
                                     <td>{reviewer?.status === 'accept' ? 'Accepted' : reviewer?.status === 'none'? 'Waiting': reviewer?.status}</td>
+                                    <td><Link to={`/journal/all-feedback/${id}`}> Check FeedBack </Link></td>
                                     <td><button className="remind-button">Remind</button></td>
                                 </tr>
                             ))}
