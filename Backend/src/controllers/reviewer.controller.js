@@ -74,6 +74,26 @@ const AcceptHandler = asyncHandler(async(req,res)=>{
         }
 
         // Update the status of the reviewer to 'accept'
+        const emailHtml = `
+        <p>Dear Dr. ${req.user.name},</p>
+        <p>Thank you for agreeing to review the above manuscript.</p>
+        <p><strong>Manuscript Number:</strong> ${journal.paper_id}</p>
+        <p><strong>Title:</strong> ${journal.title}</p>
+        <p>You can submit your review by logging in with your username and password at: <a href="'https://www.ijesacbt.com">'https://www.ijesacbt.com</a></p>
+        <p>Your username is: ${req.user.email}</p>
+        <p>If you forgot your password, you can click the 'forgot Password' link in the Login page at <a href="https://www.ijesacbt.com">https://www.ijesacbt.com</a>. For security reasons, we are not sending any passwords in mail. Sorry for the inconvenience.</p>
+        <p>We look forward to receiving your review by 10 dec 2024.</p>
+        <p>If you have any questions, please do not hesitate to contact us. We appreciate your assistance.</p>
+        <p>With kind regards,</p>
+        <p>Dr. R. Ponalagusamy<br />
+        Editor-in-Chief<br />
+        IJESACBT</p>
+      `;
+       
+      const emailRes = sendEmail(req.user.email,emailHtml,"Thanks Letter for agreeing to review ");
+      if(!emailRes){
+        throw ApiError(405,"errro in sending mail");
+      }
         journal.reviewers[reviewerIndex].status = 'accept';
         console.log(journal.reviewers[reviewerIndex].status)
         // // Save the changes

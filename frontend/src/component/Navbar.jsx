@@ -39,7 +39,7 @@ const Navbar = () => {
     setUser("");
   };
   useEffect(() => {
-    console.log("hhh");
+    //console.log("hhh");
   }, [token, user]);
 
   const [isOpen, setDropdownOpen] = useState(false);

@@ -10,6 +10,7 @@ import { ReviewerRequest } from "../models/reviewerRequest.model.js";
 import { PaperId } from "../models/paperId.model.js";
 import { FeedBack } from "../models/feedback.model.js";
 import { Revision } from "../models/Revision.model.js";
+import {sendEmail}  from "../utils/nodemailer.js"
 
 //yha pr ham ek alag se access token or refresh token genarate krne ki method banayenge 
 
@@ -233,7 +234,22 @@ const uplaodJournal = asyncHandler(async(req,res)=>{
            if(!data){
               throw new ApiError(402,"error occured when saving the document into the database");
            }
-          console.log(data);
+          const author = await User.findById({_id:user._id});
+
+          const authorMail =`<h3>Dear Mr. ${author.name},</h3>
+          <p>Your submission entitled "<strong>${title}</strong>" has been received by The International Journal of Engineering Science, Advanced Computing and Bio-Technology (IJESACBT).</p>
+          <p>You will be able to check on the progress of your paper by logging on to Editorial Manager as an author. The URL is <a href="www.ijesacbt.com">www.ijesacbt.com</a>.</p>
+          <p>The submission id is: <strong>${journal_id}</strong></p>
+          <p>Please refer to this number in any future correspondence.</p>
+          <p>Thank you for submitting your work to our journal.</p>
+          <p>Kind regards,</p>
+          <p>Editorial Office<br/>
+          IJESACBT</p>
+        `;
+        const mailSendData = sendEmail(author.email,authorMail,"Acknowledgement letter");
+        if(!mailSendData){
+            console.log("mail not send");
+        }
            return res.status(200).json(
             new ApiResponse(
                 200,{},

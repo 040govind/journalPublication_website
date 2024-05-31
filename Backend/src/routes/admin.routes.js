@@ -5,7 +5,9 @@ import {
     getAllReviewerRequest, acceptRequest, acceptPaper, rejectRequest, getUsertDetails,getAllVolume,
     addVolume,
     addIssue, 
-    addArchive
+    addArchive,
+    getAllFeedBackOfReviwer,
+    sendRemindMail
 }
     from '../controllers/admin.controler.js'
 import { getCompleteDetailsOfJournal } from "../controllers/user.controller.js";
@@ -30,5 +32,6 @@ router.route('/getAllVolume').get(AdminverifyJWT,getAllVolume);
 router.route('/addVolume').get(AdminverifyJWT,addVolume);
 router.route('/addIssue/:volume').put(AdminverifyJWT,addIssue);
 router.route('/submit-Archive').post(AdminverifyJWT,upload.single('pdfFile'),addArchive);
-
+router.route('/getAllFeedBackOfReviwer').get(AdminverifyJWT, getAllFeedBackOfReviwer);
+router.route('/send-remind-mail').post(AdminverifyJWT,sendRemindMail);
 export default router;

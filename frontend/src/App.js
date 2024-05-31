@@ -35,6 +35,7 @@ import Archive from "./pages/ArchiveVolume.jsx";
 import JournalDetails from "./pages/JournalDetails.jsx";
 import ShowFeedbackPageAuthor from "./pages/ShowFeedbackPageAuthor.jsx";
 import RevisionJournal from "./pages/RevisionJournal.jsx";
+import AllFeedBackReviewer from "./pages/adminPages/AllFeedBackReviewer.jsx";
 function App() {
   return (
     <>
@@ -296,6 +297,16 @@ function App() {
               <Admin>
                 <Layout>
                   <AddReviewer />
+                </Layout>
+              </Admin>
+            }
+          />
+          <Route
+            path="/journal/all-feedback/:id/:email"
+            element={
+              <Admin>
+                <Layout>
+                  <AllFeedBackReviewer />
                 </Layout>
               </Admin>
             }

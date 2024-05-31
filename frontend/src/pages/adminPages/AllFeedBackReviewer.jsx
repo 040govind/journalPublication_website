@@ -4,12 +4,13 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import ReviewCard from "../../component/ReviewCard";
+import FeedBAckCardAdmin from "../../component/FeedBAckCardAdmin";
 
 
 const AllFeedBackReviewer = () => {
     const [data, setData] = useState(null);
-  let { id } = useParams();
-
+  let { id,email } = useParams();
+  //console.log(id,email);
   const getCompleteJournalDetails = async () => {
     try {
       const headers = {
@@ -18,8 +19,8 @@ const AllFeedBackReviewer = () => {
       };
 
       const response = await axios.get(
-        `http://127.0.0.1:5000/api/v1/admin/getAllFeedBack/${id}`,
-        { headers }
+        "http://127.0.0.1:5000/api/v1/admin/getAllFeedBackOfReviwer",
+        { headers,params:{id,email} }
       );
       //console.log(response);
       if (response.status === 200) {
@@ -41,9 +42,13 @@ const AllFeedBackReviewer = () => {
   }, []);
   return (
     <div>
+    {/* <h1>Feedback</h1> */}
       {data && data.map((item, index) => (
-        <ReviewCard key={index} data={item} />
+        <FeedBAckCardAdmin key={index} data={item} />
       ))}
+      {
+        data?.length ===0 && <h1 style={{textAlign:"center"}}>No Feedback given by this Reviewer</h1>
+      }
     </div>
   );
 }
