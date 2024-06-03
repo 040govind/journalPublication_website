@@ -46,6 +46,10 @@ const TrackDetails = () => {
 
     const sendReminMail = async(email,name)=>{
         try {
+            const headers = {
+                Authorization: localStorage.getItem('token'),
+                'Content-Type': 'application/json',
+            }
             const response = await axios.post(
                 `http://127.0.0.1:5000/api/v1/admin/send-mremind-mail`,{email:email,id:id,name:name},
                 { headers }

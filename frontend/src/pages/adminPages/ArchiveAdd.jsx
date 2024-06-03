@@ -13,6 +13,7 @@ const ArchiveAdd = () => {
     const [formData, setFormData] = useState({
         title: "",
         author: "",
+        authoremail:"",
         pageNumber: "",
         date: "",
         abstract: "",
@@ -293,6 +294,17 @@ const ArchiveAdd = () => {
                             value={formData.author}
                             onChange={handleChange}
                             placeholder="Author Name"
+                        />
+                        </div>
+                        <div>
+                        <label htmlFor="authoremail">Email of Author:</label>
+                        <input
+                            type="email"
+                            id="authoremail"
+                            name="authoremail"
+                            value={formData.authoremail}
+                            onChange={handleChange}
+                            placeholder="Author Email"
                         />
                         </div>
 
